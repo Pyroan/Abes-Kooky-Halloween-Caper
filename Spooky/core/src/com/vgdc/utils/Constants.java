@@ -14,4 +14,7 @@ public class Constants {
 	// 	not sure but going to assume MUST BE 2^N!!!!!
 	public static final int MAP_WIDTH = 32;
 	public static final int MAP_HEIGHT = 32;
+
+	// t
+	public static final String TEXTURE_ATLAS_OBJECTS = "assets/tiles.atlas";
 }
