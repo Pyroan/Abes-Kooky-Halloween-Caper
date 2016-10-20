@@ -18,7 +18,7 @@ public class Spooky extends ApplicationAdapter {
 	Texture map;
 
 	PlayerControls variableName;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -26,7 +26,7 @@ public class Spooky extends ApplicationAdapter {
 		// Debugging: Make a map
 		makeMap();
 		initializeThings();
-		
+
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class Spooky extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
-		batch.draw(map, Constants.DEFAULT_WIDTH/2, Constants.DEFAULT_HEIGHT/2);
+		batch.draw(map, 0,0, 720, 720f);
 		batch.end();
 	}
 
@@ -52,7 +52,7 @@ public class Spooky extends ApplicationAdapter {
 		long seed = 123456789; // seed can be up to 9 digits.
 		map = new Texture(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
 	}
-	
+
 	public void initializeThings()
 	{
 		variableName = new PlayerControls();
