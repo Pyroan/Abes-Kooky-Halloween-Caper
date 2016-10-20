@@ -3,18 +3,24 @@ package com.vgdc.spooky;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.GL20;
 
 public class PlayerControls extends InputAdapter
 {
+	float imgX;
+	float imgY;
+	float imgSpeed = 10.0f;
+
 	public PlayerControls()
 	{
 		Gdx.input.setInputProcessor(this);
 	}
-	
+
 	/**
 	 * @return true if the correct movement keys are pressed
 	 * @return false if the incorrect movement keys are pressed
-	 */
+	 *
+	 **/
 	@Override
 	public boolean keyDown(int keycode)
 	{
@@ -45,9 +51,26 @@ public class PlayerControls extends InputAdapter
 		}
 	}
 
+
 	public void movementStuff()
 	{
-
+		if(keyDown(Keys.W) || keyDown(Keys.UP))
+		{
+			Spooky.img.velocity.y = Spooky.img.terminalVelocity.y;
+		}
+		if(keyDown(Keys.S) || keyDown(Keys.DOWN))
+		{
+			Spooky.img.velocity.y = -Spooky.img.terminalVelocity.y;
+		}
+		if(keyDown(Keys.A) || keyDown(Keys.LEFT))
+		{
+			Spooky.img.velocity.x = -Spooky.img.terminalVelocity.x;
+		}
+		if(keyDown(Keys.D) || keyDown(Keys.RIGHT))
+		{
+			Spooky.img.velocity.x = Spooky.img.terminalVelocity.x;
+		}
 	}
+
 
 }

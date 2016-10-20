@@ -3,6 +3,7 @@ package com.vgdc.spooky;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,7 +11,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Spooky extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+<<<<<<< Updated upstream
 	PlayerControls variableName;
+=======
+
+	Texture map;
+
+	PlayerControls controller;
+	
+	int imgX = 1;
+	int imgY = 1;
+	
+	
+>>>>>>> Stashed changes
 	
 	@Override
 	public void create () {
@@ -22,10 +35,19 @@ public class Spooky extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		
+		int [] positions = controller.movementStuff();
+		positions[0] = imgX;
+		positions[1] = imgY;
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
+<<<<<<< Updated upstream
 		batch.draw(img, 0, 0);
+=======
+		batch.draw(img, 1, 1);
+		batch.draw(map, imgX, imgY);
+>>>>>>> Stashed changes
 		batch.end();
 	}
 	
@@ -37,6 +59,7 @@ public class Spooky extends ApplicationAdapter {
 	
 	public void initializeThings()
 	{
-		variableName = new PlayerControls();
+		controller = new PlayerControls();
 	}
+	
 }
