@@ -2,6 +2,7 @@ package com.vgdc.spooky;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,12 +17,16 @@ public class Spooky extends ApplicationAdapter {
 
 	Texture map;
 
+	PlayerControls variableName;
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		// Debugging: Make a map
 		makeMap();
+		initializeThings();
+		
 	}
 
 	@Override
@@ -46,5 +51,10 @@ public class Spooky extends ApplicationAdapter {
 		MapGenerator mg = new MapGenerator();
 		long seed = 123456789; // seed can be up to 9 digits.
 		map = new Texture(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
+	}
+	
+	public void initializeThings()
+	{
+		variableName = new PlayerControls();
 	}
 }
