@@ -44,7 +44,7 @@ public class Spooky extends ApplicationAdapter {
 
 	public void makeMap() {
 		MapGenerator mg = new MapGenerator();
-		double d = Math.random();
-		map = new Texture(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, d));
+		long seed = 123456789; // seed can be up to 9 digits.
+		map = new Texture(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
 	}
 }
