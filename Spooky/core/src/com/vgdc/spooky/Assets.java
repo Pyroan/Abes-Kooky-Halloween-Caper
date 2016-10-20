@@ -11,6 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
 import com.vgdc.utils.Constants;
 
+/**
+ * Contains references to all of our assets.
+ * @author Derek B.
+ *
+ */
 public class Assets implements Disposable, AssetErrorListener
 {
 	public static final String TAG = Assets.class.getName();
@@ -72,7 +77,7 @@ public class Assets implements Disposable, AssetErrorListener
 				+ asset.fileName + "'", (Exception) throwable);
 	}
 
-	private class AssetTiles
+	public class AssetTiles
 	{
 
 		public final AtlasRegion tiles1;

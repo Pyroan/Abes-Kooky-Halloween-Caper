@@ -15,6 +15,6 @@ public class Constants {
 	public static final int MAP_WIDTH = 32;
 	public static final int MAP_HEIGHT = 32;
 
-	// t
-	public static final String TEXTURE_ATLAS_OBJECTS = "assets/tiles.atlas";
+	// Reference to the Texture Atlas
+	public static final String TEXTURE_ATLAS_OBJECTS = "tiles.atlas";
 }
