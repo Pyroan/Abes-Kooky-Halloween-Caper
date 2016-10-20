@@ -1,0 +1,41 @@
+
+tiles.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+badlogic
+  rotate: false
+  xy: 2, 206
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bush
+  rotate: false
+  xy: 260, 321
+  size: 250, 141
+  orig: 250, 141
+  offset: 0, 0
+  index: -1
+rock1
+  rotate: false
+  xy: 2, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+snowtile
+  rotate: false
+  xy: 2, 2
+  size: 93, 100
+  orig: 93, 100
+  offset: 0, 0
+  index: -1
+tree1
+  rotate: false
+  xy: 260, 178
+  size: 250, 141
+  orig: 250, 141
+  offset: 0, 0
+  index: -1
