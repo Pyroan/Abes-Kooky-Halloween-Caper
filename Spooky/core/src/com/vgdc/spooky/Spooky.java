@@ -11,55 +11,47 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Spooky extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-<<<<<<< Updated upstream
+
 	PlayerControls variableName;
-=======
 
 	Texture map;
 
 	PlayerControls controller;
-	
+
 	int imgX = 1;
 	int imgY = 1;
-	
-	
->>>>>>> Stashed changes
-	
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		initializeThings();
-		
+
 	}
 
 	@Override
 	public void render () {
-		
-		int [] positions = controller.movementStuff();
-		positions[0] = imgX;
-		positions[1] = imgY;
+
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-<<<<<<< Updated upstream
 		batch.draw(img, 0, 0);
-=======
 		batch.draw(img, 1, 1);
 		batch.draw(map, imgX, imgY);
->>>>>>> Stashed changes
 		batch.end();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
 	}
-	
+
 	public void initializeThings()
 	{
 		controller = new PlayerControls();
 	}
-	
+
 }
