@@ -7,7 +7,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.vgdc.spooky.Spooky;
 
 public class DesktopLauncher {
-	private static boolean rebuildAtlas  = true;
+	private static boolean rebuildAtlas  = false;
 	private static boolean drawDebugOutline = false;
 	public static void main (String[] arg) {
 		if(rebuildAtlas)
@@ -19,7 +19,7 @@ public class DesktopLauncher {
 			settings.debug = drawDebugOutline;
 			TexturePacker.process(settings, "../core/assets", "../core/assets", "tiles");
 		}
-		
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1280;
 		config.height = 720;
