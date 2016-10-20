@@ -7,11 +7,14 @@ package com.vgdc.utils;
 public class Constants {
 
 	// The default window size.
-	public static final int DEFAULT_WIDTH = 1280;
-	public static final int DEFAULT_HEIGHT = 720;
+	public static final float VIEWPORT_WIDTH = 5.0f;
+	public static final float VIEWPORT_HEIGHT = 5.0f;
 
 	// Our default map size (in tiles)
-	// 	not sure but going to assume MUST BE 2^N!!!!!
+	// 	not sure but going to assume MUST BE POWER OF 2!!!!!
 	public static final int MAP_WIDTH = 32;
 	public static final int MAP_HEIGHT = 32;
+
+	// Reference to the Texture Atlas
+	public static final String TEXTURE_ATLAS_OBJECTS = "tiles.atlas";
 }
