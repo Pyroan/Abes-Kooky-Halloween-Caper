@@ -33,4 +33,13 @@ public class Player extends AbstractGameObject
 				tex.getHeight(), false, false);
 	}
 
+	public float getWidth() {
+		return tex.getWidth();
+	}
+
+	public float getHeight() {
+		return tex.getHeight();
+	}
+
+
 }

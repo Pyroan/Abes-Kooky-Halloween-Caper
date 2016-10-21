@@ -5,7 +5,7 @@ package com.vgdc.utils;
  *
  */
 public final class Constants {
-	
+
 	//pixels per meter
 	//use to convert to box2d units
 	//so setting boxshape and getting object position

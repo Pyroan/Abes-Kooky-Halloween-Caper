@@ -32,7 +32,7 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	 */
 	private void init() {
 		batch = new SpriteBatch();
-		camera = new OrthographicCamera (Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+		camera = new OrthographicCamera (Gdx.graphics.getWidth() / Constants.PPM, Gdx.graphics.getHeight() / Constants.PPM);
 		camera.position.set(0,0,0);
 		camera.update();
 	}
@@ -54,7 +54,7 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	}
 
 	public void resize(int width, int height) {
-		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/ height) * width;
+		camera.viewportWidth = (Gdx.graphics.getWidth()/ height) * width/ Constants.PPM;
 		camera.update();
 	}
 

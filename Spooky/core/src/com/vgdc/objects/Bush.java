@@ -27,4 +27,13 @@ public class Bush /*did 9/11*/ extends AbstractGameObject{
 				reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 	}
 
+
+	public float getWidth() {
+		return reg.getRegionWidth();
+	}
+
+	public float getHeight() {
+		return reg.getRegionHeight();
+	}
+
 }
