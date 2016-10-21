@@ -10,6 +10,9 @@ public class MusicPlayer
 
 	public static Music nathanielSnoring = Gdx.audio.newMusic
 			(Gdx.files.internal("Nathaniel Snoring.mp3"));
+	
+	public static Music wind = Gdx.audio.newMusic
+			(Gdx.files.internal("wind.mp3"));
 
 	public MusicPlayer()
 	{
