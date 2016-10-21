@@ -16,6 +16,7 @@ public class Tree extends AbstractGameObject{
 	// Sets some stuff, finds reg.
 	private void init() {
 		dimension.set(1,1);
+		origin.set(dimension.x/2, dimension.y/2);
 		reg = Assets.instance.tree.tree1;
 	}
 
