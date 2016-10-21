@@ -76,7 +76,23 @@ public class WorldController {
 		level.update(deltaTime);
 		testForCollision();
 		cameraHelper.update(deltaTime);
-		(MusicPlayer.getMusic()).play();
+		updateMusic(deltaTime);
+	}
+
+	public void updateMusic(float deltaTime)
+	{
+		MusicPlayer.backgroundSong.setVolume(0.1f);
+		MusicPlayer.backgroundSong.play();
+		if(Math.random() > 0.98)
+		{
+			MusicPlayer.nathanielSnoring.play();
+		}
+		if(MusicPlayer.nathanielSnoring.getPosition() >= 7.0f)
+		{
+			MusicPlayer.nathanielSnoring.stop();
+		}
+		MusicPlayer.wind.setVolume(0.2f);
+		MusicPlayer.wind.play();
 	}
 
 	private void moveCamera(float x, float y)
