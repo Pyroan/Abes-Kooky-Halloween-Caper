@@ -20,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.vgdc.objects.Tree;
 import com.vgdc.utils.Constants;
 
+import box2dLight.RayHandler;
+
 
 
 public class Spooky extends ApplicationAdapter {
@@ -37,6 +39,9 @@ public class Spooky extends ApplicationAdapter {
 	Body player;
 	Box2DDebugRenderer b2dr;
 
+	//box2d light stuff
+	RayHandler rayHandler;
+
 
 	public Level level;
 
@@ -44,12 +49,16 @@ public class Spooky extends ApplicationAdapter {
 	public void create () {
 		//trying to make box2D work
 
-		//init box2d world, setting gravity vector (realistic gravity)
-		world = new World(new Vector2(0, -9.8f), false);
+		//init box2d world, setting gravity vector (0 gravity for now)
+		world = new World(new Vector2(0, 0f), false);
 		//wold handler
 		//worldRenderer extends b2dr
 		//player created and placed in the world
 		player = createPlayer();
+
+		//light stuff
+		rayHandler = new RayHandler(world);
+		rayHandler.setAmbientLight(.2f);
 
 
 		Assets.instance.init(new AssetManager());
@@ -68,8 +77,16 @@ public class Spooky extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		worldRenderer.render(world);
+		rayHandler.render();
 		batch.begin();
 		batch.end();
+	}
+
+	//for box2d
+	public void update(float delta){
+		//world logic before render
+		world.step(1/60f, 6, 2);
+		rayHandler.update();
 	}
 
 	@Override
@@ -82,6 +99,7 @@ public class Spooky extends ApplicationAdapter {
 		worldRenderer.dispose();
 		Assets.instance.dispose();
 		world.dispose();
+		rayHandler.dispose();
 
 	}
 
@@ -90,11 +108,7 @@ public class Spooky extends ApplicationAdapter {
 		controller = new PlayerControls();
 	}
 
-	//for box2d
-	public void update(float delta){
-		//world logic befoer render
-		world.step(1/60f, 6, 2);
-	}
+
 
 	//Lis made this for box2d
 	public Body createPlayer(){
