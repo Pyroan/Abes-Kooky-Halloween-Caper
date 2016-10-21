@@ -5,16 +5,13 @@ import com.badlogic.gdx.audio.Music;
 
 public class MusicPlayer
 {
-	public static Music song1 = Gdx.audio.newMusic
+	public static Music backgroundSong = Gdx.audio.newMusic
 			(Gdx.files.internal("Piano Abuse.mp3"));
 
-	private MusicPlayer()
-	{
-	}
+	public static Music nathanielSnoring = Gdx.audio.newMusic
+			(Gdx.files.internal("Nathaniel Snoring.mp3"));
 
-	public static Music getMusic()
+	public MusicPlayer()
 	{
-		return song1;
-
 	}
 }
