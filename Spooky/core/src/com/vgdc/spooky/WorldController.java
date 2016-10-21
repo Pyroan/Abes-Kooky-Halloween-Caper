@@ -67,7 +67,7 @@ public class WorldController {
 		if (collectedCandies == numberOfCandies) {
 			// As a nod to spectrum shooter, have it
 			// crash the game upon victory.
-			Gdx.app.log("", "THAS PRETTY NEAT.")
+			Gdx.app.log("", "THAS PRETTY NEAT.");
 			System.exit(0);
 			return;
 		}
