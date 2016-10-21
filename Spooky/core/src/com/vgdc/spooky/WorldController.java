@@ -2,6 +2,7 @@ package com.vgdc.spooky;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.vgdc.utils.CameraHelper;
 import com.vgdc.utils.Constants;
 
@@ -21,6 +22,10 @@ public class WorldController {
 
 	public CameraHelper cameraHelper;
 
+	public PlayerControls controller;
+
+	private static final String TAG = WorldController.class.getName();
+
 	public WorldController() {
 		init();
 	}
@@ -32,6 +37,7 @@ public class WorldController {
 
 	private void init() {
 		cameraHelper = new CameraHelper();
+		controller = new PlayerControls();
 		initLevel();
 	}
 
@@ -41,7 +47,36 @@ public class WorldController {
 		level = new Level(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
 	}
 
-	public void update(float deltaTime) {
+	public void update(float deltaTime)
+	{
+		handleCameraMovement(deltaTime);
+	}
 
+	private void moveCamera(float x, float y)
+	{
+		x += cameraHelper.getPosition().x;
+		y += cameraHelper.getPosition().y;
+		cameraHelper.setPosition(x, y);
+	}
+
+	public void handleCameraMovement(float deltaTime)
+	{
+		float cameraMoveSpeed = 5 * deltaTime;
+		if(Gdx.input.isKeyPressed(Keys.W))
+		{
+			moveCamera(0, cameraMoveSpeed);
+		}
+		if(Gdx.input.isKeyPressed(Keys.A))
+		{
+			moveCamera(-cameraMoveSpeed, 0 );
+		}
+		if (Gdx.input.isKeyPressed(Keys.S))
+		{
+			moveCamera(0, -cameraMoveSpeed);
+		}
+		if(Gdx.input.isKeyPressed(Keys.D))
+		{
+			moveCamera(cameraMoveSpeed, 0);
+		}
 	}
 }
