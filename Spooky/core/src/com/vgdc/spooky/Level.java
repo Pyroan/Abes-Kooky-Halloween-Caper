@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Floor;
+import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
 
@@ -25,7 +26,8 @@ public class Level {
 		TREE   (0, 255, 0),	// Green
 		BUSH   (255, 255, 0),	// Yellow
 		GROUND (0, 0, 0),	// Black
-		ROCK   (255, 0, 0);	// Red
+		ROCK   (255, 0, 0),	// Red
+		PLAYER (255, 255, 255); // White
 
 		private int color;
 
@@ -51,6 +53,8 @@ public class Level {
 	public Array<Bush> bushes;
 	public Array<Rock> rocks;
 	public Array<Floor> tiles;
+
+	public Player player;
 
 	private void init(Pixmap pixmap) {
 		// objects
@@ -103,8 +107,16 @@ public class Level {
 					rocks.add((Rock)obj);
 				}
 
-				else if (TILE.GROUND.sameColor(currentPixel)) {
+				// Player
+				else if (TILE.PLAYER.sameColor(currentPixel)) {
+					obj = new Player();
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					player = (Player)obj;
+					Gdx.app.log(TAG, "Found a player spawn: (" + pixelX + ", " + pixelY + ")");
+				}
 
+				else if (TILE.GROUND.sameColor(currentPixel)) {
+					// Do nothing. We drew the ground already.
 				}
 
 				// Unknown pixel color.
@@ -142,9 +154,12 @@ public class Level {
 		// Draw trees
 		for (Tree tree: trees)
 			tree.render(batch);
+
+		player.render(batch);
 	}
 
 	public void update (float deltaTime) {
+		player.update(deltaTime);
 		for (Floor floor: tiles)
 			floor.update(deltaTime);
 		for (Rock rock: rocks)
