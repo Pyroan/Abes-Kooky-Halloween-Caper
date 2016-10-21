@@ -3,6 +3,7 @@ package com.vgdc.spooky;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
@@ -89,6 +90,7 @@ public class Level {
 				if (TILE.TREE.sameColor(currentPixel)) {
 					obj = new Tree();
 					obj.position.set(pixelX, baseHeight* obj.dimension.y + offsetHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					trees.add((Tree)obj);
 
 				}
@@ -97,6 +99,7 @@ public class Level {
 				else if (TILE.BUSH.sameColor(currentPixel)) {
 					obj = new Bush();
 					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					bushes.add((Bush)obj);
 				}
 
@@ -104,6 +107,7 @@ public class Level {
 				else if (TILE.ROCK.sameColor(currentPixel)) {
 					obj = new Rock();
 					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					rocks.add((Rock)obj);
 				}
 
@@ -144,18 +148,23 @@ public class Level {
 			floor.render(batch);
 
 		// Draw Rocks
-		for (Rock rock: rocks)
+		for (Rock rock: rocks){
 			rock.render(batch);
+		}
 
 		// Draw Bushes
-		for (Bush /*GHW*/ bush /*GW*/: bushes /*Jeb*/)
+		for (Bush /*GHW*/ bush /*GW*/: bushes /*Jeb*/){
 			bush.render(batch);
+		}
 
 		// Draw trees
-		for (Tree tree: trees)
+		for (Tree tree: trees){
 			tree.render(batch);
+		}
 
 		player.render(batch);
+		//Body playerBox = player.createBox(player.position.x, player.position.y, player.getWidth()/PPM, player.getHeight()/PPM, false);
+		//Spooky.light.attachToBody(playerBox, 5, 5);
 	}
 
 	public void update (float deltaTime) {
