@@ -21,13 +21,14 @@ import com.vgdc.utils.Constants;
 public class MapGenerator {
 	private static final String TAG = MapGenerator.class.getName();
 
-	private final int TREE = 0, BUSH = 1, GROUND = 2, ROCK = 3, PLAYER = 4;
+	private final int TREE = 0, BUSH = 1, GROUND = 2, ROCK = 3, PLAYER = 4, CANDY = 5;
 	private float[][] colorVals = {
 		{0.0f, 1.0f, 0.0f},
 		{1.0f, 1.0f, 0.0f},
 		{0.0f, 0.0f, 0.0f},
 		{1.0f, 0.0f, 0.0f},
-		{1.0f, 1.0f, 1.0f}
+		{1.0f, 1.0f, 1.0f},
+		{1.0f, 0.0f, 1.0f}
 	};
 
 	boolean spawnedPlayer = false;
@@ -95,14 +96,29 @@ public class MapGenerator {
 				 * PLAYER: CHOOSE A BLACK SQUARE
 				 * Spoilers: RN it's just the first black square.
 				 */
-				if (map.getPixel(i, j) == 255 && !spawnedPlayer) {
-					map.setColor(colorVals[PLAYER][0], colorVals[PLAYER][1], colorVals[PLAYER][2], 1);
-					map.drawPixel(i, j);
-					spawnedPlayer = true;
-					Gdx.app.log(TAG, "Chose a place to spawn the player: (" +i+ ", " + j+ ")");
+				if (map.getPixel(i, j) == 255) {
+					/**
+					 * Step 5:
+					 * Draw a Candy? Randomly?
+					 * When your win condition is random AMIRITE FELLAS
+					 */
+					if (Math.random() > .95) {
+						map.setColor(colorVals[CANDY][0], colorVals[CANDY][1], colorVals[CANDY][2], 1);
+						map.drawPixel(i, j);
+					}
+
+					// Actually step 4
+					if (!spawnedPlayer) {
+						map.setColor(colorVals[PLAYER][0], colorVals[PLAYER][1], colorVals[PLAYER][2], 1);
+						map.drawPixel(i, j);
+						spawnedPlayer = true;
+						Gdx.app.log(TAG, "Chose a place to spawn the player: (" +i+ ", " + j+ ")");
+
+					}
 				}
 			}
 		}
+
 		return map;
 	}
 }
