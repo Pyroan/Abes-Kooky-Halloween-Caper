@@ -4,7 +4,14 @@ package com.vgdc.utils;
  * @author Violet M.
  *
  */
-public class Constants {
+public final class Constants {
+	
+	//pixels per meter
+	//use to convert to box2d units
+	//so setting boxshape and getting object position
+	//giving units -> divide
+	//getting units -> multiply
+	public static final float PPM = 32;
 
 	// The default window size.
 	public static final float VIEWPORT_WIDTH = 5.0f;
