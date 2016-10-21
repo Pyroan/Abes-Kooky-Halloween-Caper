@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
+import com.vgdc.objects.Candy;
 import com.vgdc.objects.Floor;
 import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
@@ -27,7 +28,8 @@ public class Level {
 		BUSH   (255, 255, 0),	// Yellow
 		GROUND (0, 0, 0),	// Black
 		ROCK   (255, 0, 0),	// Red
-		PLAYER (255, 255, 255); // White
+		PLAYER (255, 255, 255), // White
+		CANDY  (255, 0, 255); // Pink
 
 		private int color;
 
@@ -53,6 +55,7 @@ public class Level {
 	public Array<Bush> bushes;
 	public Array<Rock> rocks;
 	public Array<Floor> tiles;
+	public Array<Candy> candies;
 
 	public Player player;
 
@@ -62,7 +65,7 @@ public class Level {
 		bushes = new Array<Bush>();
 		rocks = new Array<Rock>();
 		tiles = new Array<Floor>();
-;
+		candies = new Array<Candy>();
 		for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
 			for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
 				AbstractGameObject obj = null;
@@ -115,6 +118,13 @@ public class Level {
 					Gdx.app.log(TAG, "Found a player spawn: (" + pixelX + ", " + pixelY + ")");
 				}
 
+				// Candy
+				else if (TILE.CANDY.sameColor(currentPixel)) {
+					obj = new Candy();
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					candies.add((Candy)obj);
+				}
+
 				else if (TILE.GROUND.sameColor(currentPixel)) {
 					// Do nothing. We drew the ground already.
 				}
@@ -131,7 +141,8 @@ public class Level {
 			}
 		}
 
-		// The floor
+		// Tell me something.
+		Gdx.app.log(TAG, candies.size + " Candies spawned.");
 
 		// Free memory
 		pixmap.dispose();
@@ -155,6 +166,10 @@ public class Level {
 		for (Tree tree: trees)
 			tree.render(batch);
 
+		// Draw Candies
+		for (Candy candy: candies)
+			candy.render(batch);
+
 		player.render(batch);
 	}
 
@@ -168,5 +183,7 @@ public class Level {
 			bush.update(deltaTime);
 		for (Tree tree: trees)
 			tree.update(deltaTime);
+		for (Candy candy: candies)
+			candy.update(deltaTime);
 	}
 }
