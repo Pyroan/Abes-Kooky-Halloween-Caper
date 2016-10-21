@@ -10,35 +10,29 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.vgdc.objects.Tree;
 import com.vgdc.utils.Constants;
 
 
 
 public class Spooky extends ApplicationAdapter {
 	SpriteBatch batch;
-	TextureRegion img;
-
-	Texture map;
 
 	PlayerControls variableName;
 
-
 	PlayerControls controller;
 
-	int imgX = 1;
-	int imgY = 1;
+	WorldRenderer worldRenderer;
+	WorldController worldController;
 
-
-
+	public Level level;
 
 	@Override
 	public void create () {
 		Assets.instance.init(new AssetManager());
+		worldController = new WorldController();
+		worldRenderer = new WorldRenderer(worldController);
 		batch = new SpriteBatch();
-		// Debugging: render an asset
-		img = new TextureRegion(Assets.instance.snowTiles.tiles1);
-		// Debugging: Make a map
-		makeMap();
 		initializeThings();
 
 	}
@@ -46,28 +40,22 @@ public class Spooky extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		worldRenderer.render();
 		batch.begin();
-		batch.draw(map, 0,0, 720, 720f);
-		batch.draw(img, 0, 0);
-		batch.draw(img, 1, 1);
-		batch.draw(map, imgX, imgY);
 		batch.end();
 	}
 
 	@Override
-	public void dispose () {
-		batch.dispose();
-//		img.dispose();
-
-		map.dispose();
+	public void resize(int width, int height) {
+		worldRenderer.resize(width, height);
 	}
 
-	public void makeMap() {
-		MapGenerator mg = new MapGenerator();
-		long seed = 123456789; // seed can be up to 9 digits.
-		map = new Texture(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
+	@Override
+	public void dispose() {
+		worldRenderer.dispose();
+		Assets.instance.dispose();
 	}
 
 	public void initializeThings()
