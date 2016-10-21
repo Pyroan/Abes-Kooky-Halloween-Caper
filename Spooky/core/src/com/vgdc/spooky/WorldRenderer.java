@@ -1,22 +1,28 @@
 package com.vgdc.spooky;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.vgdc.utils.Constants;
 
 /**
  * Draws our world
  * @author Violet M.
- *
+ * also
+ * @author Lis O.
+ * to make box2d work
  */
-public class WorldRenderer implements Disposable {
+public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private WorldController worldController;
 
 	public WorldRenderer(WorldController worldController) {
+		super();
 		this.worldController = worldController;
 		init();
 	}
@@ -31,9 +37,13 @@ public class WorldRenderer implements Disposable {
 		camera.update();
 	}
 
-	public void render() {
+	public void render(World world) {
+
+		super.render(world, camera.combined);
 		renderWorld(batch);
 	}
+
+
 
 	private void renderWorld(SpriteBatch batch) {
 		worldController.cameraHelper.applyTo(camera);
