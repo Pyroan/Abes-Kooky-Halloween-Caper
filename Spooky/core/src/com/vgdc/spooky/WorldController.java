@@ -71,8 +71,10 @@ public class WorldController {
 		{
 			MusicPlayer.nathanielSnoring.stop();
 		}
+		MusicPlayer.wind.setVolume(0.2f);
+		MusicPlayer.wind.play();
 	}
-	
+
 	private void moveCamera(float x, float y)
 	{
 		x += cameraHelper.getPosition().x;
