@@ -2,6 +2,8 @@ package com.vgdc.spooky;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.vgdc.utils.Constants;
@@ -13,19 +15,22 @@ import com.vgdc.utils.Constants;
  *                                         *
  *******************************************/
 /**
- * The map works by being a simple .png that we can
- * load assets from. This seems like a dumb way to do this
+ * The map works by reading pixels from a pixmap and translating them
+ * into big boy sprites.
  */
 public class MapGenerator {
-	// Let's use a disgusting peasant array instead.
-	private final int TREE = 0, BUSH = 1, GROUND = 2, ROCK = 3;
+	private static final String TAG = MapGenerator.class.getName();
+
+	private final int TREE = 0, BUSH = 1, GROUND = 2, ROCK = 3, PLAYER = 4;
 	private float[][] colorVals = {
 		{0.0f, 1.0f, 0.0f},
 		{1.0f, 1.0f, 0.0f},
 		{0.0f, 0.0f, 0.0f},
-		{1.0f, 0.0f, 0.0f}
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 1.0f, 1.0f}
 	};
 
+	boolean spawnedPlayer = false;
 	/**
 	 * Allegedly is supposed to somehow generate a map.
 	 * @param width - the width (in pixels) of the final image
@@ -81,7 +86,20 @@ public class MapGenerator {
 						count++;
 					// And we're doing it by filling in a trapped block with a tree.
 					if (count == 4)
+						map.setColor(colorVals[TREE][0], colorVals[TREE][1], colorVals[TREE][2], 1);
 						map.drawPixel(i,j);
+				}
+
+				/**
+				 * Step 4:
+				 * PLAYER: CHOOSE A BLACK SQUARE
+				 * Spoilers: RN it's just the first black square.
+				 */
+				if (map.getPixel(i, j) == 255 && !spawnedPlayer) {
+					map.setColor(colorVals[PLAYER][0], colorVals[PLAYER][1], colorVals[PLAYER][2], 1);
+					map.drawPixel(i, j);
+					spawnedPlayer = true;
+					Gdx.app.log(TAG, "Chose a place to spawn the player: (" +i+ ", " + j+ ")");
 				}
 			}
 		}

@@ -45,11 +45,15 @@ public class WorldController {
 		MapGenerator mg = new MapGenerator();
 		long seed = 123456789; // Seed can be up to 9 digits long.
 		level = new Level(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
+		cameraHelper.setTarget(level.player);
 	}
 
 	public void update(float deltaTime)
 	{
 		handleCameraMovement(deltaTime);
+		handlePlayerMovement(deltaTime);
+		level.update(deltaTime);
+		cameraHelper.update(deltaTime);
 	}
 
 	private void moveCamera(float x, float y)
@@ -61,6 +65,8 @@ public class WorldController {
 
 	public void handleCameraMovement(float deltaTime)
 	{
+		if (cameraHelper.hasTarget()) return;
+
 		float cameraMoveSpeed = 5 * deltaTime;
 		if(Gdx.input.isKeyPressed(Keys.W))
 		{
@@ -78,5 +84,21 @@ public class WorldController {
 		{
 			moveCamera(cameraMoveSpeed, 0);
 		}
+	}
+
+	public void handlePlayerMovement(float deltaTime)
+	{
+		if (!cameraHelper.hasTarget(level.player)) return;
+
+		if (Gdx.input.isKeyPressed(Keys.W)) {
+			level.player.velocity.y = level.player.terminalVelocity.y;
+		} else if (Gdx.input.isKeyPressed(Keys.S)) {
+			level.player.velocity.y = -level.player.terminalVelocity.y;
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			level.player.velocity.x = -level.player.terminalVelocity.x;
+		}else if (Gdx.input.isKeyPressed(Keys.D))
+			level.player.velocity.x = level.player.terminalVelocity.x;
 	}
 }
