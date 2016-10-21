@@ -33,6 +33,7 @@ public class WorldRenderer implements Disposable {
 
 	public void render() {
 		renderWorld(batch);
+		
 	}
 
 	private void renderWorld(SpriteBatch batch) {
