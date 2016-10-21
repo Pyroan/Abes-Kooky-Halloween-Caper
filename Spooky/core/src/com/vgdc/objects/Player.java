@@ -20,10 +20,11 @@ public class Player extends AbstractGameObject
 		pixmap.setColor(0f,0f,0f,1f);
 		pixmap.fillCircle(pixmap.getWidth()/2, pixmap.getHeight()/2, 50);
 		tex = new Texture(pixmap);
-
+		bounds.set(origin.x,origin.y, dimension.x * .75f, dimension.y * .75f);
+		origin.set(dimension.x/2, dimension.y/2);
 		terminalVelocity.set(3.0f, 3.0f);
 		friction.set(12.0f, 12.0f);
-		origin.set(dimension.x/2, dimension.y/2);
+
 	}
 	@Override
 	public void render(SpriteBatch batch) {

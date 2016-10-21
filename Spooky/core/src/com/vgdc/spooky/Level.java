@@ -186,4 +186,8 @@ public class Level {
 		for (Candy candy: candies)
 			candy.update(deltaTime);
 	}
+
+	public int getNumberOfCandies() {
+		return candies.size;
+	}
 }
