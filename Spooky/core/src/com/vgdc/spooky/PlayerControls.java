@@ -51,26 +51,4 @@ public class PlayerControls extends InputAdapter
 		}
 	}
 
-
-	public void movementStuff()
-	{
-		if(keyDown(Keys.W) || keyDown(Keys.UP))
-		{
-			Spooky.img.velocity.y = Spooky.img.terminalVelocity.y;
-		}
-		if(keyDown(Keys.S) || keyDown(Keys.DOWN))
-		{
-			Spooky.img.velocity.y = -Spooky.img.terminalVelocity.y;
-		}
-		if(keyDown(Keys.A) || keyDown(Keys.LEFT))
-		{
-			Spooky.img.velocity.x = -Spooky.img.terminalVelocity.x;
-		}
-		if(keyDown(Keys.D) || keyDown(Keys.RIGHT))
-		{
-			Spooky.img.velocity.x = Spooky.img.terminalVelocity.x;
-		}
-	}
-
-
 }
