@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
@@ -13,6 +14,7 @@ import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
 import com.vgdc.utils.CameraHelper;
 import com.vgdc.utils.Constants;
+
 import audio.MusicPlayer;
 
 /**
@@ -58,7 +60,7 @@ public class WorldController {
 		MapGenerator mg = new MapGenerator();
 		long seed = 123456789; // Seed can be up to 9 digits long.
 		level = new Level(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
-		cameraHelper.setTarget(level.player);
+		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();
 	}
 
@@ -71,6 +73,7 @@ public class WorldController {
 			System.exit(0);
 			return;
 		}
+		handleDebugInput(deltaTime);
 		handleCameraMovement(deltaTime);
 		handlePlayerMovement(deltaTime);
 		level.update(deltaTime);
@@ -81,7 +84,7 @@ public class WorldController {
 
 	public void updateMusic(float deltaTime)
 	{
-		MusicPlayer.backgroundSong.setVolume(0.1f);
+		MusicPlayer.backgroundSong.setVolume(.5f);
 		MusicPlayer.backgroundSong.play();
 		if(Math.random() > 0.98)
 		{
@@ -102,6 +105,16 @@ public class WorldController {
 		cameraHelper.setPosition(x, y);
 	}
 
+	
+	public void handleDebugInput(float deltaTime)
+	{
+		if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE))
+			if (!cameraHelper.hasTarget())
+				cameraHelper.setTarget(level.player);
+			else
+				cameraHelper.setTarget(null);
+	}
+	
 	public void handleCameraMovement(float deltaTime)
 	{
 		if (cameraHelper.hasTarget()) return;
@@ -142,16 +155,27 @@ public class WorldController {
 	}
 
 
-
+	/*************************************
+	 * Collision Detection Begins Here   *
+	 * TODO: Turn this into Box2D Stuff. *
+	 *************************************/
 	Rectangle r1 = new Rectangle();
 	Rectangle r2 = new Rectangle();
 
+	/**
+	 * How to pick up candies.
+	 * @param candy the Candy the player is colliding with.
+	 */
 	private void onCollisionPlayerWithCandy (Candy candy) {
 		candy.collected = true;
 		collectedCandies++;
 		Gdx.app.log(TAG, "Candy Collected");
 	}
 
+	/**
+	 * How to not be on walls.
+	 * @param wall
+	 */
 	private void onCollisionPlayerWithWall (AbstractGameObject wall) {
 		Player player = level.player;
 		float yDiff = Math.abs(wall.bounds.y - player.bounds.y);
@@ -185,6 +209,9 @@ public class WorldController {
 		Gdx.app.log(TAG, "U HIT DA WALL. " + y + " " + x );
 	}
 
+	/**
+	 * ... Collision Detection (For real this time)
+	 */
 	private void testForCollision () {
 		r1.set(level.player.position.x, level.player.position.y,
 				level.player.bounds.width, level.player.bounds.height);
