@@ -2,8 +2,10 @@ package com.vgdc.spooky;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
@@ -11,6 +13,7 @@ import com.vgdc.objects.Floor;
 import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
+import com.vgdc.utils.Constants;
 
 /**
  * Our Level within the game.
@@ -18,11 +21,19 @@ import com.vgdc.objects.Tree;
  *
  */
 // TODO: Implement this once objects exist.
-public class Level {
+public class Level implements Disposable {
 	public static final String TAG = Level.class.getName();
 
-	// All our potential tiles and what they'll be
-	// Represented with
+	// Display the Pixmap for debugging
+	private boolean showPixmap = Constants.DEBUGGING_MAP;
+	Pixmap pixmap;
+	
+	/**
+	 * All our potential tiles and what they'll be
+	 * represented with.
+	 * @author Pyroan
+	 *
+	 */
 	private enum TILE {
 		TREE   (0, 255, 0),	// Green
 		BUSH   (255, 255, 0),	// Yellow
@@ -59,7 +70,13 @@ public class Level {
 
 	public Player player;
 
+	/**
+	 * Reads in a pixmap, filling our Arrays based on the colors
+	 * of each pixel.
+	 * @param pixmap
+	 */
 	private void init(Pixmap pixmap) {
+		this.pixmap = pixmap;
 		// objects
 		trees = new Array<Tree>();
 		bushes = new Array<Bush>();
@@ -144,35 +161,47 @@ public class Level {
 		// Tell me something.
 		Gdx.app.log(TAG, candies.size + " Candies spawned.");
 
-		// Free memory
-		pixmap.dispose();
+
 		Gdx.app.debug(TAG,"Level Loaded");
 	}
 
+	/**
+	 * Draws all our objects in the Level.
+	 * @param batch
+	 */
 	public void render (SpriteBatch batch) {
-		// Draw Floor
-		for (Floor floor: tiles)
-			floor.render(batch);
+		if (showPixmap) {
+			Texture pm = new Texture(pixmap);
+			batch.draw(pm, 0, 0, 10, 10);
+		} else{
 
-		// Draw Rocks
-		for (Rock rock: rocks)
-			rock.render(batch);
+			// Draw Floor
+			for (Floor floor: tiles)
+				floor.render(batch);
 
-		// Draw Bushes
-		for (Bush /*GHW*/ bush /*GW*/: bushes /*Jeb*/)
-			bush.render(batch);
+			// Draw Rocks
+			for (Rock rock: rocks)
+				rock.render(batch);
 
-		// Draw trees
-		for (Tree tree: trees)
-			tree.render(batch);
+			// Draw Bushes
+			for (Bush /*GHW*/ bush /*GW*/: bushes /*Jeb*/)
+				bush.render(batch);
 
-		// Draw Candies
-		for (Candy candy: candies)
-			candy.render(batch);
+			// Draw trees
+			for (Tree tree: trees)
+				tree.render(batch);
 
-		player.render(batch);
+			// Draw Candies
+			for (Candy candy: candies)
+				candy.render(batch);
+
+			player.render(batch);
+		}
 	}
 
+	/**
+	 * Updates all objects in the level.
+	 */
 	public void update (float deltaTime) {
 		player.update(deltaTime);
 		for (Floor floor: tiles)
@@ -187,7 +216,15 @@ public class Level {
 			candy.update(deltaTime);
 	}
 
+	/**
+	 * @return how many candies are in the map.
+	 */
 	public int getNumberOfCandies() {
 		return candies.size;
+	}
+	
+	public void dispose() {
+		// Free memory
+		pixmap.dispose();
 	}
 }

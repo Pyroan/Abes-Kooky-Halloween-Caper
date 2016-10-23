@@ -6,9 +6,12 @@ package com.vgdc.utils;
  */
 public class Constants {
 
+	// Are we debugging stuff?
+	public static final boolean DEBUGGING_MAP = false;
+	
 	// The default window size.
-	public static final float VIEWPORT_WIDTH = 5.0f;
-	public static final float VIEWPORT_HEIGHT = 5.0f;
+	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? 16 : 6;
+	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? 16 : 6;
 
 	// Our default map size (in tiles)
 	// 	not sure but going to assume MUST BE POWER OF 2!!!!!

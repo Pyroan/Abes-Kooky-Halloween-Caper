@@ -16,6 +16,7 @@ import com.vgdc.utils.Constants;
 
 
 public class Spooky extends ApplicationAdapter {
+	
 	SpriteBatch batch;
 
 	PlayerControls variableName;
