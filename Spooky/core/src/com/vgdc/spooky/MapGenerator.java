@@ -68,43 +68,22 @@ public class MapGenerator implements Disposable {
 				// Step 0: Generate an Integer.
 				int object = rng.nextInt(100); // Basically we're gonna pretend we're working with percentages.
 
-				/**
-				 * Step 1:
-				 * BORDER: COMPLETELY TREES
-				 */
-				// We know we want our border to be 100% Trees.
+				// Step 1: Draw border of Trees.
 				if ((x == 0) || (y == 0) || (x == map.getWidth()-1) || (y == map.getHeight()-1)) {
 					setObject(TREE);
 					map.drawPixel(x, y);
 				}
 
-				/**
-				 * Step 2:
-				 * INTERIOR DRAWING: COMPLETELY (pseudo)RANDOM
-				 */
-				// We want roughly 75% of our pixels to be the ground.
+				// Step 2: Draw Interior
 				else {
-					// Refactor this to switch statement?
-					if (object<60) {
-						object = GROUND;
-						// Add location of the ground to the array.
-						// This comes in handy later setting up paths.
-						groundPixels.add(new Point(x, y));
-					}
-					else if (object>=60 && object<90)
-						object = TREE;
-					else if (object>=90 && object<95)
-						object = BUSH;
-					else if (object>=95 && object<100)
-						object = ROCK;
-					setObject(object);
-					map.drawPixel(x, y);
+					spawnInterior(x, y, object);
 				}
 
 				/**
 				 * Step 3:
 				 * PATHING: MAKE SURE THE PLAYER DOESN'T GET STUCK
 				 * This is the hard part that's gonna get way more intense.
+				 * Also the way it's implemented now basically entirely does not work.
 				 */
 				if (map.getPixel(x, y) == 255) {
 					int count = 0; // how many of the pixels adjacent to (i,j) are not ground
@@ -131,6 +110,26 @@ public class MapGenerator implements Disposable {
 	}
 
 	/**
+	 * Step 2: Spawn interior
+	 */
+	private void spawnInterior(int x, int y, int obj) {
+		if (obj<60) {
+			obj = GROUND;
+			// Add location of the ground to the array.
+			// This comes in handy later setting up paths.
+			groundPixels.add(new Point(x, y));
+		}
+		else if (obj>=60 && obj<90)
+			obj = TREE;
+		else if (obj>=90 && obj<95)
+			obj = BUSH;
+		else if (obj>=95 && obj<100)
+			obj = ROCK;
+		setObject(obj);
+		map.drawPixel(x, y);
+	}
+
+	/**
 	 * Step 3: Ensure all ground tiles are reachable.
 	 */
 	private void fixPathing() {
@@ -147,8 +146,8 @@ public class MapGenerator implements Disposable {
 	}
 
 	/**
-	 * Step 4: Actual-Randomly selects a ground tile
-	 * and adds the player there.
+	 * Step 4: Actual-Randomly select a ground tile
+	 * and adds an object there.
 	 */
 	private void randomSpawn(int obj) {
 		// Select a position.
