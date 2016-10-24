@@ -57,9 +57,9 @@ public class WorldController {
 	}
 
 	private void initLevel() {
-		MapGenerator mg = new MapGenerator();
 		long seed = 123456789; // Seed can be up to 9 digits long.
-		level = new Level(mg.generate(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed));
+		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
+		level = new Level(mg.generate());
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();
 	}

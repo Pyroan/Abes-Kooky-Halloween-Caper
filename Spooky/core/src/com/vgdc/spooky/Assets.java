@@ -72,7 +72,6 @@ public class Assets implements Disposable, AssetErrorListener
 
 	@Override
 	public void error(AssetDescriptor asset, Throwable throwable) {
-		// TODO Auto-generated method stub
 		Gdx.app.error(TAG, "Wouldn't load asset '"
 				+ asset.fileName + "'", (Exception) throwable);
 	}

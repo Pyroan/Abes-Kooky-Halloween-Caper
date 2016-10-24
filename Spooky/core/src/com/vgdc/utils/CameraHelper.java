@@ -17,6 +17,10 @@ public class CameraHelper {
 
 	public CameraHelper () {
 		position = new Vector2();
+		if (Constants.DEBUGGING_MAP) {
+			// Centers camera on the Pixmap for debugging
+			position = new Vector2(Constants.MAP_WIDTH/2, Constants.MAP_HEIGHT/2);
+		}
 		zoom = 1.0f;
 	}
 

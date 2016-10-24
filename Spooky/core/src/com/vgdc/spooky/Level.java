@@ -20,7 +20,6 @@ import com.vgdc.utils.Constants;
  * @author Evan S.
  *
  */
-// TODO: Implement this once objects exist.
 public class Level implements Disposable {
 	public static final String TAG = Level.class.getName();
 
@@ -172,7 +171,7 @@ public class Level implements Disposable {
 	public void render (SpriteBatch batch) {
 		if (showPixmap) {
 			Texture pm = new Texture(pixmap);
-			batch.draw(pm, 0, 0, 10, 10);
+			batch.draw(pm, 0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 		} else{
 
 			// Draw Floor
