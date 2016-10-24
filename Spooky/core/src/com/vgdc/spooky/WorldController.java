@@ -57,9 +57,10 @@ public class WorldController {
 	}
 
 	private void initLevel() {
-		long seed = 123456789; // Seed can be up to 9 digits long.
+		long seed = 123456789; // Seed can be up to 9 digits long (for now).
 		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
-		level = new Level(mg.generate());
+		level = new Level(mg.getPixmap());
+		mg.dispose();
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();
 	}
@@ -105,7 +106,7 @@ public class WorldController {
 		cameraHelper.setPosition(x, y);
 	}
 
-	
+
 	public void handleDebugInput(float deltaTime)
 	{
 		if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE))
@@ -114,7 +115,7 @@ public class WorldController {
 			else
 				cameraHelper.setTarget(null);
 	}
-	
+
 	public void handleCameraMovement(float deltaTime)
 	{
 		if (cameraHelper.hasTarget()) return;
