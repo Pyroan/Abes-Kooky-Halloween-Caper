@@ -26,7 +26,8 @@ public class Level implements Disposable {
 	// Display the Pixmap for debugging
 	private boolean showPixmap = Constants.DEBUGGING_MAP;
 	Pixmap pixmap;
-	
+	Texture pmTex;
+
 	/**
 	 * All our potential tiles and what they'll be
 	 * represented with.
@@ -76,6 +77,7 @@ public class Level implements Disposable {
 	 */
 	private void init(Pixmap pixmap) {
 		this.pixmap = pixmap;
+		pmTex = new Texture(pixmap);
 		// objects
 		trees = new Array<Tree>();
 		bushes = new Array<Bush>();
@@ -170,8 +172,7 @@ public class Level implements Disposable {
 	 */
 	public void render (SpriteBatch batch) {
 		if (showPixmap) {
-			Texture pm = new Texture(pixmap);
-			batch.draw(pm, 0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+			batch.draw(pmTex, 0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 		} else{
 
 			// Draw Floor
@@ -221,7 +222,7 @@ public class Level implements Disposable {
 	public int getNumberOfCandies() {
 		return candies.size;
 	}
-	
+
 	public void dispose() {
 		// Free memory
 		pixmap.dispose();
