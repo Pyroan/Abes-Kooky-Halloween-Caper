@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.vgdc.encounters.EncounterHandler;
+import com.vgdc.encounters.MockEncounter;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
@@ -22,6 +24,8 @@ import audio.MusicPlayer;
  * what this does.
  * In class it's been functioning simultaneously
  * as an input handler and a collision detector.
+ *
+ * This class is getting extremely out of hand.
  * @author Evan S.
  *
  */
@@ -34,6 +38,8 @@ public class WorldController {
 	public CameraHelper cameraHelper;
 
 	public PlayerControls controller;
+
+	public EncounterHandler encounterHandler;
 
 	public int numberOfCandies;
 	public int collectedCandies;
@@ -51,11 +57,15 @@ public class WorldController {
 
 	private void init() {
 		cameraHelper = new CameraHelper();
+		encounterHandler = new EncounterHandler();
 		controller = new PlayerControls();
 		collectedCandies = 0;
 		initLevel();
 	}
 
+	/**
+	 * Initializes the level (right now with a given seed)
+	 */
 	private void initLevel() {
 		long seed = 123456789; // Seed can be up to 9 digits long (for now).
 		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
@@ -99,6 +109,11 @@ public class WorldController {
 		MusicPlayer.wind.play();
 	}
 
+	/**
+	 * Moves the camera to a place.
+	 * @param x how far to move it.
+	 * @param y how far to move it.
+	 */
 	private void moveCamera(float x, float y)
 	{
 		x += cameraHelper.getPosition().x;
@@ -106,7 +121,11 @@ public class WorldController {
 		cameraHelper.setPosition(x, y);
 	}
 
-
+	/**
+	 * Handles input for debug features,
+	 * like letting the camera move freely
+	 * @param deltaTime
+	 */
 	public void handleDebugInput(float deltaTime)
 	{
 		if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE))
@@ -114,8 +133,18 @@ public class WorldController {
 				cameraHelper.setTarget(level.player);
 			else
 				cameraHelper.setTarget(null);
+
+		// Test a mock encounter.
+		if (Gdx.input.isKeyJustPressed(Keys.T)) {
+			encounterHandler.encounters.get(0).trigger();
+			Gdx.app.log(TAG, "Test of MockEncounter initialized");
+		}
 	}
 
+	/**
+	 * Moves the camera around if the camera doesn't have a target.
+	 * @param deltaTime
+	 */
 	public void handleCameraMovement(float deltaTime)
 	{
 		if (cameraHelper.hasTarget()) return;
@@ -139,6 +168,10 @@ public class WorldController {
 		}
 	}
 
+	/**
+	 * Moves the player around
+	 * @param deltaTime
+	 */
 	public void handlePlayerMovement(float deltaTime)
 	{
 		if (!cameraHelper.hasTarget(level.player)) return;

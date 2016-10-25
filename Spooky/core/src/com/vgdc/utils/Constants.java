@@ -1,4 +1,7 @@
 package com.vgdc.utils;
+
+import com.badlogic.gdx.Gdx;
+
 /**
  * Constants class: Contains constant values to be used by all the code
  * @author Evan S.
@@ -7,7 +10,7 @@ package com.vgdc.utils;
 public class Constants {
 
 	// Are we debugging map generation?
-	public static final boolean DEBUGGING_MAP = true;
+	public static final boolean DEBUGGING_MAP = false;
 
 	// Our default map size (in tiles)
 	public static final int MAP_WIDTH = 32;
@@ -17,6 +20,10 @@ public class Constants {
 	// I don't fully understand how this works.
 	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? MAP_WIDTH : 6;
 	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? MAP_HEIGHT : 6;
+
+	// The Viewport for the GUI
+	public static final float VIEWPORT_GUI_WIDTH = 1280;
+	public static final float VIEWPORT_GUI_HEIGHT = 720;
 
 	// Reference to the Texture Atlas
 	public static final String TEXTURE_ATLAS_OBJECTS = "tiles.atlas";
