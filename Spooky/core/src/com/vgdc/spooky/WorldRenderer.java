@@ -13,6 +13,7 @@ import com.vgdc.utils.Constants;
 public class WorldRenderer implements Disposable {
 
 	private OrthographicCamera camera;
+	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
 
@@ -29,13 +30,30 @@ public class WorldRenderer implements Disposable {
 		camera = new OrthographicCamera (Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0,0,0);
 		camera.update();
+		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
 	}
 
 	public void render() {
 		renderWorld(batch);
-		
+		renderGui(batch);
 	}
 
+	/**
+	 * Renders our GUI, including text boxes?
+	 * @param batch
+	 */
+	private void renderGui(SpriteBatch batch) {
+		batch.setProjectionMatrix(cameraGUI.combined);
+		batch.begin();
+		worldController.encounterHandler.render(batch);
+		batch.end();
+	}
+
+	/**
+	 * Renders the world, applying the cameraHelper to our world camera,
+	 * and renders the level.
+	 * @param batch
+	 */
 	private void renderWorld(SpriteBatch batch) {
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
@@ -44,9 +62,21 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 	}
 
+	/**
+	 * Triggered on window resize.
+	 * @param width
+	 * @param height
+	 */
 	public void resize(int width, int height) {
+		// Update the World camera.
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/ height) * width;
 		camera.update();
+		// Update the GUI camera.
+		cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
+		cameraGUI.viewportWidth = Constants.VIEWPORT_GUI_HEIGHT / (float) height * (float) width;
+		cameraGUI.position.set(cameraGUI.viewportWidth / 2,
+				cameraGUI.viewportHeight /2, 0);
+		cameraGUI.update();
 	}
 
 
