@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.vgdc.encounters.EncounterHandler;
@@ -43,6 +44,8 @@ public class WorldController {
 
 	public int numberOfCandies;
 	public int collectedCandies;
+	
+	public ParticleEffect snow = new ParticleEffect();
 
 	private static final String TAG = WorldController.class.getName();
 
@@ -59,6 +62,7 @@ public class WorldController {
 		cameraHelper = new CameraHelper();
 		encounterHandler = new EncounterHandler();
 		controller = new PlayerControls();
+		snow.load(Gdx.files.internal("particles/Snow"), Gdx.files.internal("particles"));
 		collectedCandies = 0;
 		initLevel();
 	}
@@ -91,6 +95,7 @@ public class WorldController {
 		testForCollision();
 		cameraHelper.update(deltaTime);
 		updateMusic(deltaTime);
+		snow.update(deltaTime);
 	}
 
 	public void updateMusic(float deltaTime)
