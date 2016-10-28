@@ -1,7 +1,9 @@
 package com.vgdc.spooky;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.utils.Disposable;
 import com.vgdc.utils.Constants;
 
@@ -16,6 +18,7 @@ public class WorldRenderer implements Disposable {
 	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
+	
 
 	public WorldRenderer(WorldController worldController) {
 		this.worldController = worldController;
@@ -31,6 +34,7 @@ public class WorldRenderer implements Disposable {
 		camera.position.set(0,0,0);
 		camera.update();
 		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+		
 	}
 
 	public void render() {
@@ -46,6 +50,8 @@ public class WorldRenderer implements Disposable {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		worldController.encounterHandler.render(batch);
+		worldController.snow.setPosition(0, Constants.VIEWPORT_GUI_HEIGHT);
+		worldController.snow.draw(batch);
 		batch.end();
 	}
 
