@@ -7,7 +7,7 @@ package com.vgdc.utils;
 public class Constants {
 
 	// Are we debugging map generation?
-	public static final boolean DEBUGGING_MAP = true;
+	public static final boolean DEBUGGING_MAP = false;
 
 	// Our default map size (in tiles)
 	public static final int MAP_WIDTH = 32;
