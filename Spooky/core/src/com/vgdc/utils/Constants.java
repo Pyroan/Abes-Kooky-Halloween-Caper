@@ -17,9 +17,9 @@ public class Constants {
 	public static final int MAP_HEIGHT = 32;
 
 	// The default window size.
-	// I don't fully understand how this works.
-	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? MAP_WIDTH : 6;
-	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? MAP_HEIGHT : 6;
+	// It's the number of units the camera can see.
+	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? MAP_WIDTH : 10;
+	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? MAP_HEIGHT : 10;
 
 	// The Viewport for the GUI
 	public static final float VIEWPORT_GUI_WIDTH = 1280;
