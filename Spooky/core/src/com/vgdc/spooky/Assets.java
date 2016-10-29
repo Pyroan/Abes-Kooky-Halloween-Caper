@@ -32,6 +32,10 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetTiles snowTiles;
 	public AssetTree tree;
 	public AssetRock rock;
+	public AssetAbe front;
+	public AssetAbeBack back;
+	public AssetAbeLeft left;
+	public AssetAbeRight right;
 
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
@@ -63,6 +67,11 @@ public class Assets implements Disposable, AssetErrorListener
 		snowTiles = new AssetTiles(atlas);
 		tree = new AssetTree(atlas);
 		rock = new AssetRock(atlas);
+		front = new AssetAbe(atlas);
+		back = new AssetAbeBack(atlas);
+		left = new AssetAbeLeft(atlas);
+		right = new AssetAbeRight(atlas);
+		
 	}
 	@Override
 	public void dispose() {
@@ -117,7 +126,44 @@ public class Assets implements Disposable, AssetErrorListener
 			bush1 = atlas.findRegion("bush");
 		}
 	}
+	
+	public class AssetAbe
+	{
 
+		public final AtlasRegion front1;
+		public AssetAbe(TextureAtlas atlas)
+		{
+			front1 = atlas.findRegion("abe");
+		}
+	}
+	public class AssetAbeBack
+	{
+
+		public final AtlasRegion back1;
+		public AssetAbeBack(TextureAtlas atlas)
+		{
+			back1 = atlas.findRegion("abe-back");
+		}
+	}
+	public class AssetAbeLeft
+	{
+
+		public final AtlasRegion bush1;
+		public AssetAbeLeft(TextureAtlas atlas)
+		{
+			bush1 = atlas.findRegion("abe-left");
+		}
+	}
+	public class AssetAbeRight
+	{
+
+		public final AtlasRegion bush1;
+		public AssetAbeRight(TextureAtlas atlas)
+		{
+			bush1 = atlas.findRegion("abe-right");
+		}
+	}
+	
 
 }
 
