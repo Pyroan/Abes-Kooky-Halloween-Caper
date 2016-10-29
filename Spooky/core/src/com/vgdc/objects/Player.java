@@ -25,7 +25,7 @@ public class Player extends AbstractGameObject
 //		pixmap.fillCircle(pixmap.getWidth()/2, pixmap.getHeight()/2, 50);
 //		tex = new Texture(pixmap);
 		reg = new TextureRegion(Assets.instance.front.front1);
-		dimension.set(1, 1);
+		dimension.set(1,2);
 		bounds.set(origin.x,origin.y, dimension.x * .75f, dimension.y * .75f);
 		origin.set(dimension.x/2, dimension.y/2);
 		terminalVelocity.set(3.0f, 3.0f);
