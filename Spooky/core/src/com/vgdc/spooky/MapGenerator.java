@@ -26,19 +26,28 @@ import com.vgdc.utils.Constants;
 public class MapGenerator implements Disposable {
 	private static final String TAG = MapGenerator.class.getName();
 
-	// Constants so I don't have to remember where to access the colorVals array.
-	// I know this was originally an Enum that i changed to an array but it might be worth
-	//   turning this back into an enum.
-	private final int TREE = 0, BUSH = 1, GROUND = 2, ROCK = 3, PLAYER = 4, CANDY = 5;
-	// Defines what colors we're generating.
-	private final float[][] colorVals = {
-			{0.0f, 1.0f, 0.0f},
-			{1.0f, 1.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f},
-			{1.0f, 0.0f, 0.0f},
-			{1.0f, 1.0f, 1.0f},
-			{1.0f, 0.0f, 1.0f}
-	};
+	// Defines the colors we're generating.
+	// Much cleaner than the disgusting thing we were doing before.
+	private enum OBJECT {
+		GROUND (0, 0, 0),
+		EXIT   (0, 0, 1),
+		TREE   (0, 1, 0),
+		HOUSE  (0, 1, 1),
+		ROCK   (1, 0, 0),
+		CANDY  (1, 0, 1),
+		BUSH   (1, 1, 0),
+		PLAYER (1, 1, 1);
+		
+		private float r;
+		private float g;
+		private float b;
+		
+		OBJECT (float r, float g, float b) {
+			this.r = r;
+			this.g = g;
+			this.b = b;
+		}
+	}
 
 	// Array of all the ground area.
 	private Array<Point> groundPixels;
@@ -70,7 +79,7 @@ public class MapGenerator implements Disposable {
 
 				// Step 1: Draw border of Trees.
 				if ((x == 0) || (y == 0) || (x == map.getWidth()-1) || (y == map.getHeight()-1)) {
-					setObject(TREE);
+					setObject(OBJECT.TREE);
 					map.drawPixel(x, y);
 				}
 
@@ -97,13 +106,13 @@ public class MapGenerator implements Disposable {
 						count++;
 					// And we're doing it by filling in a trapped block with a tree.
 					if (count == 4)
-						setObject(TREE);
+						setObject(OBJECT.TREE);
 					map.drawPixel(x,y);
 				}
 			}
 		}
 		// Step 4: add the player.
-		randomSpawn(PLAYER);
+		randomSpawn(OBJECT.PLAYER);
 		// Step 5: add the candy.
 		spawnCandy();
 		return map;
@@ -112,19 +121,20 @@ public class MapGenerator implements Disposable {
 	/**
 	 * Step 2: Spawn interior
 	 */
-	private void spawnInterior(int x, int y, int obj) {
-		if (obj<60) {
-			obj = GROUND;
+	private void spawnInterior(int x, int y, int ran) {
+			OBJECT obj = OBJECT.GROUND;
+		if (ran<60) {
+			obj = OBJECT.GROUND;
 			// Add location of the ground to the array.
 			// This comes in handy later setting up paths.
 			groundPixels.add(new Point(x, y));
 		}
-		else if (obj>=60 && obj<90)
-			obj = TREE;
-		else if (obj>=90 && obj<95)
-			obj = BUSH;
-		else if (obj>=95 && obj<100)
-			obj = ROCK;
+		else if (ran>=60 && ran<90)
+			obj = OBJECT.TREE;
+		else if (ran>=90 && ran<95)
+			obj = OBJECT.BUSH;
+		else if (ran>=95 && ran<100)
+			obj = OBJECT.ROCK;
 		setObject(obj);
 		map.drawPixel(x, y);
 	}
@@ -149,7 +159,7 @@ public class MapGenerator implements Disposable {
 	 * Step 4: Actual-Randomly select a ground tile
 	 * and adds an object there.
 	 */
-	private void randomSpawn(int obj) {
+	private void randomSpawn(OBJECT obj) {
 		// Select a position.
 		int i = (int)(Math.random() * (groundPixels.size-1));
 		Point pos = groundPixels.get(i);
@@ -168,7 +178,7 @@ public class MapGenerator implements Disposable {
 	 */
 	private void spawnCandy() {
 		for (int i = 0; i < Constants.NUMBER_OF_CANDIES; i++)
-			randomSpawn(CANDY);
+			randomSpawn(OBJECT.CANDY);
 	}
 
 	/**
@@ -176,8 +186,9 @@ public class MapGenerator implements Disposable {
 	 * predetermined values by letting you specify one of our objects.
 	 * @param object the object
 	 */
-	private void setObject(int object) {
-		map.setColor(colorVals[object][0], colorVals[object][1], colorVals[object][2], 1);
+	private void setObject(OBJECT object) {
+//		map.setColor(colorVals[object][0], colorVals[object][1], colorVals[object][2], 1);
+		map.setColor(object.r, object.g, object.b, 1);
 	}
 
 	/**

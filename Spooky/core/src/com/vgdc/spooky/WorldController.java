@@ -181,6 +181,20 @@ public class WorldController {
 	{
 		if (!cameraHelper.hasTarget(level.player)) return;
 
+		// Change the player's texture.
+		if (Gdx.input.isKeyJustPressed(Keys.W)) {
+			level.player.setTexture(level.player.back);
+		} else if (Gdx.input.isKeyJustPressed(Keys.S)) {
+			level.player.setTexture(level.player.front);
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.A)) {
+			level.player.setTexture(level.player.left);
+		}else if (Gdx.input.isKeyJustPressed(Keys.D)) {
+			level.player.setTexture(level.player.right);
+		}
+		
+		// Move the player.
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			level.player.velocity.y = level.player.terminalVelocity.y;
 		} else if (Gdx.input.isKeyPressed(Keys.S)) {
@@ -189,8 +203,9 @@ public class WorldController {
 
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			level.player.velocity.x = -level.player.terminalVelocity.x;
-		}else if (Gdx.input.isKeyPressed(Keys.D))
+		}else if (Gdx.input.isKeyPressed(Keys.D)) {
 			level.player.velocity.x = level.player.terminalVelocity.x;
+		}
 	}
 
 

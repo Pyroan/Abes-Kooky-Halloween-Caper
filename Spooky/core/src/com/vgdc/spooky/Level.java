@@ -103,13 +103,13 @@ public class Level implements Disposable {
 				// TODO: Move this so it autogens the floor.
 					// draw floor.
 					obj = new Floor();
-					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					tiles.add((Floor)obj);
 
 				// Tree
 				if (TILE.TREE.sameColor(currentPixel)) {
 					obj = new Tree();
-					obj.position.set(pixelX, baseHeight* obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					trees.add((Tree)obj);
 
 				}
@@ -117,21 +117,21 @@ public class Level implements Disposable {
 				// Bush (did 9/11)
 				else if (TILE.BUSH.sameColor(currentPixel)) {
 					obj = new Bush();
-					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					bushes.add((Bush)obj);
 				}
 
 				// Rock
 				else if (TILE.ROCK.sameColor(currentPixel)) {
 					obj = new Rock();
-					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					rocks.add((Rock)obj);
 				}
 
 				// Player
 				else if (TILE.PLAYER.sameColor(currentPixel)) {
 					obj = new Player();
-					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					player = (Player)obj;
 					Gdx.app.log(TAG, "Found a player spawn: (" + pixelX + ", " + pixelY + ")");
 				}
@@ -139,7 +139,7 @@ public class Level implements Disposable {
 				// Candy
 				else if (TILE.CANDY.sameColor(currentPixel)) {
 					obj = new Candy();
-					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX, baseHeight);
 					candies.add((Candy)obj);
 				}
 
