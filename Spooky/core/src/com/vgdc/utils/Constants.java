@@ -13,13 +13,13 @@ public class Constants {
 	public static final boolean DEBUGGING_MAP = false;
 
 	// Our default map size (in tiles)
-	public static final int MAP_WIDTH = 32;
-	public static final int MAP_HEIGHT = 32;
+	public static final int MAP_WIDTH = 64;
+	public static final int MAP_HEIGHT = 64;
 
 	// The default window size.
 	// It's the number of units the camera can see.
-	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? MAP_WIDTH : 10;
-	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? MAP_HEIGHT : 10;
+	public static final float VIEWPORT_WIDTH = DEBUGGING_MAP ? MAP_WIDTH : 16;
+	public static final float VIEWPORT_HEIGHT = DEBUGGING_MAP ? MAP_HEIGHT : 16;
 
 	// The Viewport for the GUI
 	public static final float VIEWPORT_GUI_WIDTH = 1280;

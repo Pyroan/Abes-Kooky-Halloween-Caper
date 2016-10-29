@@ -16,6 +16,11 @@ public class Player extends AbstractGameObject
 {
 	private Texture tex;
 	private TextureRegion reg;
+	
+	public TextureRegion front;
+	public TextureRegion back;
+	public TextureRegion left;
+	public TextureRegion right;
 
 	Pixmap pixmap = new Pixmap(200, 200, Format.RGBA8888);
 	public Player()
@@ -25,19 +30,31 @@ public class Player extends AbstractGameObject
 //		pixmap.fillCircle(pixmap.getWidth()/2, pixmap.getHeight()/2, 50);
 //		tex = new Texture(pixmap);
 		reg = new TextureRegion(Assets.instance.front.front1);
+		
+		front = new TextureRegion(Assets.instance.front.front1);
+		back = new TextureRegion(Assets.instance.back.back1);
+		left = new TextureRegion(Assets.instance.left.left1);
+		right = new TextureRegion(Assets.instance.right.right1);
+		
 		dimension.set(1,2);
-		bounds.set(origin.x,origin.y, dimension.x * .75f, dimension.y * .75f);
+//		bounds.set(origin.x,origin.y, dimension.x * .75f, dimension.y * .75f);
 		origin.set(dimension.x/2, dimension.y/2);
 		terminalVelocity.set(3.0f, 3.0f);
 		friction.set(12.0f, 12.0f);
 
 	}
+	
+	
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw(reg.getTexture(), position.x, position.y,
 				origin.x, origin.y, dimension.x, dimension.y,
 				scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),
 				reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+	}
+	
+	public void setTexture(TextureRegion reg) {
+		this.reg = reg;
 	}
 
 }

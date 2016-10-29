@@ -148,19 +148,19 @@ public class Assets implements Disposable, AssetErrorListener
 	public class AssetAbeLeft
 	{
 
-		public final AtlasRegion bush1;
+		public final AtlasRegion left1;
 		public AssetAbeLeft(TextureAtlas atlas)
 		{
-			bush1 = atlas.findRegion("abe-left");
+			left1 = atlas.findRegion("abe-left");
 		}
 	}
 	public class AssetAbeRight
 	{
 
-		public final AtlasRegion bush1;
+		public final AtlasRegion right1;
 		public AssetAbeRight(TextureAtlas atlas)
 		{
-			bush1 = atlas.findRegion("abe-right");
+			right1 = atlas.findRegion("abe-right");
 		}
 	}
 	
