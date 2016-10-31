@@ -29,28 +29,45 @@ public class MapGenerator implements Disposable {
 	// Defines the colors we're generating.
 	// Much cleaner than the disgusting thing we were doing before.
 	private enum OBJECT {
-		GROUND (0, 0, 0),
-		EXIT   (0, 0, 1),
-		TREE   (0, 1, 0),
-		HOUSE  (0, 1, 1),
-		ROCK   (1, 0, 0),
-		CANDY  (1, 0, 1),
-		BUSH   (1, 1, 0),
-		PLAYER (1, 1, 1);
+		GROUND (0, 0, 0, 1, 1),
+		EXIT   (0, 0, 1, 1, 1),
+		TREE   (0, 1, 0, 2, 2),
+		HOUSE  (0, 1, 1, 2, 4),
+		ROCK   (1, 0, 0, 2, 2),
+		CANDY  (1, 0, 1, 1, 1), // Since candy is almost more of a particle might not be worth spawning.
+		BUSH   (1, 1, 0, 1, 1),
+		PLAYER (1, 1, 1, 1, 1);
 		
 		private float r;
 		private float g;
 		private float b;
 		
-		OBJECT (float r, float g, float b) {
+		private int colWidth; // Collision dimensions
+		private int colHeight;// So we can draw things without bad overlap.
+		
+		OBJECT (float r, float g, float b, int width, int height) {
 			this.r = r;
 			this.g = g;
 			this.b = b;
+			
+			this.colWidth = width;
+			this.colHeight = height;
+		}
+		
+		public int getColWidth() {
+			return colWidth;
+		}
+		
+		public int getColHeight() {
+			return colHeight;
 		}
 	}
 
 	// Array of all the ground area.
 	private Array<Point> groundPixels;
+	
+	// Array of pixels that are still available to drop things.
+	private Array<Point> availableArea;
 
 	// Our actual map.
 	private Pixmap map;
@@ -64,8 +81,23 @@ public class MapGenerator implements Disposable {
 		rng = new Random(seed);
 		map = new Pixmap(width, height, Format.RGB888);
 		groundPixels = new Array<Point>();
+		initAvailableArea();
 		generate();
 	}
+	
+	/**
+	 * This feels extremely dirty. EXTREMELY.
+	 */
+	private void initAvailableArea() {
+		availableArea = new Array<Point>();
+		
+		for (int i = 0; i < map.getWidth(); i++) {
+			for (int j = 0; j < map.getHeight(); j++) {
+				availableArea.add(new Point(i, j));
+			}
+		}
+	}
+	
 	/**
 	 * Allegedly is supposed to somehow generate a map.
 	 */
@@ -74,13 +106,15 @@ public class MapGenerator implements Disposable {
 		map.drawRectangle(0, 0, map.getWidth(), map.getHeight());
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
+				// Step -1: Make sure we can draw here.
+				if (!availableArea.contains(new Point(x,y), false)) continue; // OH GOD IT'S A DIRTY WORD.
+				
 				// Step 0: Generate an Integer.
 				int object = rng.nextInt(100); // Basically we're gonna pretend we're working with percentages.
 
 				// Step 1: Draw border of Trees.
 				if ((x == 0) || (y == 0) || (x == map.getWidth()-1) || (y == map.getHeight()-1)) {
-					setObject(OBJECT.TREE);
-					map.drawPixel(x, y);
+					drawObject(OBJECT.TREE, x, y);
 				}
 
 				// Step 2: Draw Interior
@@ -95,6 +129,7 @@ public class MapGenerator implements Disposable {
 				 * Also the way it's implemented now basically entirely does not work.
 				 */
 				if (map.getPixel(x, y) == 255) {
+					OBJECT obj = OBJECT.GROUND;
 					int count = 0; // how many of the pixels adjacent to (i,j) are not ground
 					if (map.getPixel(x-1, y) != 255)
 						count++;
@@ -106,8 +141,8 @@ public class MapGenerator implements Disposable {
 						count++;
 					// And we're doing it by filling in a trapped block with a tree.
 					if (count == 4)
-						setObject(OBJECT.TREE);
-					map.drawPixel(x,y);
+						obj = OBJECT.TREE;
+					drawObject(obj, x, y);
 				}
 			}
 		}
@@ -135,8 +170,7 @@ public class MapGenerator implements Disposable {
 			obj = OBJECT.BUSH;
 		else if (ran>=95 && ran<100)
 			obj = OBJECT.ROCK;
-		setObject(obj);
-		map.drawPixel(x, y);
+		drawObject(obj, x, y);
 	}
 
 	/**
@@ -161,11 +195,12 @@ public class MapGenerator implements Disposable {
 	 */
 	private void randomSpawn(OBJECT obj) {
 		// Select a position.
-		int i = (int)(Math.random() * (groundPixels.size-1));
-		Point pos = groundPixels.get(i);
+		Point pos;
+		int i;
+		i = (int)(Math.random() * (groundPixels.size-1));
+		pos = groundPixels.get(i);
+		drawObject(obj, pos.x, pos.y);
 		// Add the object.
-		setObject(obj);
-		map.drawPixel(pos.x, pos.y);
 		Gdx.app.log(TAG, "Chose a place to spawn" + obj + ": (" +pos.x+ ", " + pos.y+ ")");
 		// Removes the location of the object from the groundPixels array.
 		// may mess us up later when we're trying to fix paths,but as of right now
@@ -182,6 +217,29 @@ public class MapGenerator implements Disposable {
 	}
 
 	/**
+	 * Draws an object at the given location and removes that 
+	 * object's collision space from available spawning tiles.
+	 * @return true if the object was successfully drawn
+	 * (i.e. its collision size didn't interfere with another object's)
+	 */
+	private boolean drawObject(OBJECT obj, int x, int y) {
+		// Check to make sure none of the object's collision will interfere
+		// with another one's,
+		// and removes the object's collision area from the available area.
+		for (int i = 0; i < obj.getColWidth(); i++) {
+			for (int j = 0; j < obj.getColHeight(); j++) {
+				if (!availableArea.removeValue(new Point(x+i,y+j), false)) {
+//					return false;	
+				}
+			}
+		}
+		// Draw the object.
+		setObject(obj);
+		map.drawPixel(x,y);
+		return true;
+	}
+	
+	/**
 	 * Sets the color the pixmap is drawing with to one of our
 	 * predetermined values by letting you specify one of our objects.
 	 * @param object the object
@@ -191,6 +249,11 @@ public class MapGenerator implements Disposable {
 		map.setColor(object.r, object.g, object.b, 1);
 	}
 
+	
+	/****************************************************************
+	 * UNIMPORTANT METHODS (Getters, Setters, Disposes) BEGIN HERE. *
+	 ****************************************************************/
+	
 	/**
 	 * @return the pixmap.
 	 */

@@ -1,8 +1,16 @@
 package com.vgdc.encounters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.vgdc.utils.Constants;
 
 /**
  * Keeps track of all our encounters
@@ -13,6 +21,11 @@ import com.badlogic.gdx.utils.Array;
  */
 public class EncounterHandler {
 
+	private Pixmap textBox;
+	private Texture textBoxTex;
+	
+	BitmapFont font = new BitmapFont(Gdx.files.internal("arial-15.fnt"), Gdx.files.internal("arial-15.png"), false);
+	
 	// List of all the encounters we can use.
 	public Array<AbstractEncounter> encounters;
 
@@ -21,6 +34,9 @@ public class EncounterHandler {
 	 */
 	public EncounterHandler() {
 		encounters = new Array<AbstractEncounter>();
+		textBox = new Pixmap(600, 200, Format.RGB888);
+		textBox.fillRectangle(0, 0, textBox.getWidth(), textBox.getHeight());
+		textBoxTex = new Texture(textBox);
 		initEncounters();
 	}
 
@@ -29,8 +45,7 @@ public class EncounterHandler {
 	 * Eventually will make all the encounters?
 	 */
 	private void initEncounters() {
-		MockEncounter mEncounter = new MockEncounter();
-		encounters.add(mEncounter);
+		encounters.add(new MockEncounter());
 	}
 
 	/**
@@ -38,16 +53,33 @@ public class EncounterHandler {
 	 * @param batch
 	 */
 	public void render(SpriteBatch batch) {
-		renderTextBox();
 		for (int i = 0; i < encounters.size; i++) {
 			if (encounters.get(i).isTriggered) {
-				encounters.get(i).render(batch);
+				renderTextBox(batch, encounters.get(i));				
 			}
 		}
 	}
+	
+	/**
+	 * Sees checks all encounter triggers.
+	 * @param deltaTime
+	 */
+	public void update(float deltaTime) {
+		if (Gdx.input.isKeyJustPressed(Keys.T)) {
+			int ind = encounters.indexOf(new MockEncounter(), false);
+//			if (ind >=0) 
+				encounters.get(0).trigger();
+		}
+	}
 
-	private void renderTextBox() {
+	private void renderTextBox(SpriteBatch batch, AbstractEncounter encounter) {
+		batch.draw(textBoxTex, Constants.VIEWPORT_GUI_WIDTH/2 - textBoxTex.getWidth()/2,
+				10);
 
+		font.setColor(Color.WHITE);
+		font.draw(batch, encounter.title + ": " + encounter.currentText,
+				Constants.VIEWPORT_GUI_WIDTH/2 - textBoxTex.getWidth()/2 + 10, textBoxTex.getHeight(),
+				textBox.getWidth(), Align.left, true);
 	}
 
 }
