@@ -88,6 +88,7 @@ public class WorldController {
 			System.exit(0);
 			return;
 		}
+		encounterHandler.update(deltaTime);
 		handleDebugInput(deltaTime);
 		handleCameraMovement(deltaTime);
 		handlePlayerMovement(deltaTime);
@@ -140,10 +141,6 @@ public class WorldController {
 				cameraHelper.setTarget(null);
 
 		// Test a mock encounter.
-		if (Gdx.input.isKeyJustPressed(Keys.T)) {
-			encounterHandler.encounters.get(0).trigger();
-			Gdx.app.log(TAG, "Test of MockEncounter initialized");
-		}
 	}
 
 	/**
@@ -181,30 +178,20 @@ public class WorldController {
 	{
 		if (!cameraHelper.hasTarget(level.player)) return;
 
-		// Change the player's texture.
-		if (Gdx.input.isKeyJustPressed(Keys.W)) {
-			level.player.setTexture(level.player.back);
-		} else if (Gdx.input.isKeyJustPressed(Keys.S)) {
-			level.player.setTexture(level.player.front);
-		}
-
-		if (Gdx.input.isKeyJustPressed(Keys.A)) {
-			level.player.setTexture(level.player.left);
-		}else if (Gdx.input.isKeyJustPressed(Keys.D)) {
-			level.player.setTexture(level.player.right);
-		}
-		
-		// Move the player.
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			level.player.velocity.y = level.player.terminalVelocity.y;
+			level.player.setTexture(level.player.back);
 		} else if (Gdx.input.isKeyPressed(Keys.S)) {
 			level.player.velocity.y = -level.player.terminalVelocity.y;
+			level.player.setTexture(level.player.front);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			level.player.velocity.x = -level.player.terminalVelocity.x;
+			level.player.setTexture(level.player.left);
 		}else if (Gdx.input.isKeyPressed(Keys.D)) {
 			level.player.velocity.x = level.player.terminalVelocity.x;
+			level.player.setTexture(level.player.right);
 		}
 	}
 

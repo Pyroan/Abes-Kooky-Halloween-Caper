@@ -25,6 +25,5 @@ public abstract class AbstractEncounter {
 
 	public abstract void trigger();
 
-	public abstract void render(SpriteBatch batch);
 
 }
