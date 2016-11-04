@@ -37,27 +37,27 @@ public class MapGenerator implements Disposable {
 		CANDY  (1, 0, 1, 1, 1), // Since candy is almost more of a particle might not be worth spawning.
 		BUSH   (1, 1, 0, 1, 1),
 		PLAYER (1, 1, 1, 1, 1);
-		
+
 		private float r;
 		private float g;
 		private float b;
-		
+
 		private int colWidth; // Collision dimensions
 		private int colHeight;// So we can draw things without bad overlap.
-		
+
 		OBJECT (float r, float g, float b, int width, int height) {
 			this.r = r;
 			this.g = g;
 			this.b = b;
-			
+
 			this.colWidth = width;
 			this.colHeight = height;
 		}
-		
+
 		public int getColWidth() {
 			return colWidth;
 		}
-		
+
 		public int getColHeight() {
 			return colHeight;
 		}
@@ -65,7 +65,7 @@ public class MapGenerator implements Disposable {
 
 	// Array of all the ground area.
 	private Array<Point> groundPixels;
-	
+
 	// Array of pixels that are still available to drop things.
 	private Array<Point> availableArea;
 
@@ -84,20 +84,20 @@ public class MapGenerator implements Disposable {
 		initAvailableArea();
 		generate();
 	}
-	
+
 	/**
 	 * This feels extremely dirty. EXTREMELY.
 	 */
 	private void initAvailableArea() {
 		availableArea = new Array<Point>();
-		
+
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				availableArea.add(new Point(i, j));
 			}
 		}
 	}
-	
+
 	/**
 	 * Allegedly is supposed to somehow generate a map.
 	 */
@@ -108,7 +108,7 @@ public class MapGenerator implements Disposable {
 			for (int y = 0; y < map.getHeight(); y++) {
 				// Step -1: Make sure we can draw here.
 				if (!availableArea.contains(new Point(x,y), false)) continue; // OH GOD IT'S A DIRTY WORD.
-				
+
 				// Step 0: Generate an Integer.
 				int object = rng.nextInt(100); // Basically we're gonna pretend we're working with percentages.
 
@@ -190,7 +190,7 @@ public class MapGenerator implements Disposable {
 	}
 
 	/**
-	 * Step 4: Actual-Randomly select a ground tile
+	 * Step 4: Actual-Randomly selects a ground tile
 	 * and adds an object there.
 	 */
 	private void randomSpawn(OBJECT obj) {
@@ -217,7 +217,7 @@ public class MapGenerator implements Disposable {
 	}
 
 	/**
-	 * Draws an object at the given location and removes that 
+	 * Draws an object at the given location and removes that
 	 * object's collision space from available spawning tiles.
 	 * @return true if the object was successfully drawn
 	 * (i.e. its collision size didn't interfere with another object's)
@@ -229,7 +229,7 @@ public class MapGenerator implements Disposable {
 		for (int i = 0; i < obj.getColWidth(); i++) {
 			for (int j = 0; j < obj.getColHeight(); j++) {
 				if (!availableArea.removeValue(new Point(x+i,y+j), false)) {
-//					return false;	
+//					return false;
 				}
 			}
 		}
@@ -238,7 +238,7 @@ public class MapGenerator implements Disposable {
 		map.drawPixel(x,y);
 		return true;
 	}
-	
+
 	/**
 	 * Sets the color the pixmap is drawing with to one of our
 	 * predetermined values by letting you specify one of our objects.
@@ -249,11 +249,11 @@ public class MapGenerator implements Disposable {
 		map.setColor(object.r, object.g, object.b, 1);
 	}
 
-	
+
 	/****************************************************************
 	 * UNIMPORTANT METHODS (Getters, Setters, Disposes) BEGIN HERE. *
 	 ****************************************************************/
-	
+
 	/**
 	 * @return the pixmap.
 	 */
