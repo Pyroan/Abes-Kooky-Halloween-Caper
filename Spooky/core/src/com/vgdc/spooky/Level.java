@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.vgdc.objects.AbstractGameObject;
@@ -110,6 +111,7 @@ public class Level implements Disposable {
 				if (TILE.TREE.sameColor(currentPixel)) {
 					obj = new Tree();
 					obj.position.set(pixelX, baseHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					trees.add((Tree)obj);
 
 				}
@@ -118,6 +120,7 @@ public class Level implements Disposable {
 				else if (TILE.BUSH.sameColor(currentPixel)) {
 					obj = new Bush();
 					obj.position.set(pixelX, baseHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					bushes.add((Bush)obj);
 				}
 
@@ -125,6 +128,7 @@ public class Level implements Disposable {
 				else if (TILE.ROCK.sameColor(currentPixel)) {
 					obj = new Rock();
 					obj.position.set(pixelX, baseHeight);
+					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					rocks.add((Rock)obj);
 				}
 

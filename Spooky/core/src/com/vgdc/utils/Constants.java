@@ -7,7 +7,14 @@ import com.badlogic.gdx.Gdx;
  * @author Violet M.
  *
  */
-public class Constants {
+public final class Constants {
+
+	//pixels per meter
+	//use to convert to box2d units
+	//so setting boxshape and getting object position
+	//giving units -> divide
+	//getting units -> multiply
+	public static final float PPM = 32;
 
 	// Are we debugging map generation?
 	public static final boolean DEBUGGING_MAP = false;

@@ -57,4 +57,13 @@ public class Player extends AbstractGameObject
 		this.reg = reg;
 	}
 
+	public float getWidth() {
+		return tex.getWidth();
+	}
+
+	public float getHeight() {
+		return tex.getHeight();
+	}
+
+
 }
