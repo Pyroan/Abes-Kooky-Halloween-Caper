@@ -36,5 +36,13 @@ public class Candy extends AbstractGameObject
 				scale.y, rotation, 0, 0, tex.getWidth(),
 				tex.getHeight(), false, false);
 	}
+	@Override
+	public float getWidth() {
+		return tex.getWidth();
+	}
+	@Override
+	public float getHeight() {
+		return tex.getHeight();
+	}
 
 }
