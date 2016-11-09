@@ -7,8 +7,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.vgdc.audio.MusicPlayer;
 import com.vgdc.encounters.EncounterHandler;
-import com.vgdc.encounters.MockEncounter;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
@@ -17,8 +17,6 @@ import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
 import com.vgdc.utils.CameraHelper;
 import com.vgdc.utils.Constants;
-
-import audio.MusicPlayer;
 
 /**
  * I'd be lying if i said I was prepared to explain
@@ -40,11 +38,13 @@ public class WorldController {
 
 	public PlayerControls controller;
 
+	public MusicPlayer musicPlayer;
+
 	public EncounterHandler encounterHandler;
 
 	public int numberOfCandies;
 	public int collectedCandies;
-	
+
 	public ParticleEffect snow = new ParticleEffect();
 
 	private static final String TAG = WorldController.class.getName();
@@ -62,6 +62,7 @@ public class WorldController {
 		cameraHelper = new CameraHelper();
 		encounterHandler = new EncounterHandler();
 		controller = new PlayerControls();
+		musicPlayer = new MusicPlayer();
 		snow.load(Gdx.files.internal("particles/Snow"), Gdx.files.internal("particles"));
 		collectedCandies = 0;
 		initLevel();
@@ -95,25 +96,10 @@ public class WorldController {
 		level.update(deltaTime);
 		testForCollision();
 		cameraHelper.update(deltaTime);
-		updateMusic(deltaTime);
+		musicPlayer.update(deltaTime);
 		snow.update(deltaTime);
 	}
 
-	public void updateMusic(float deltaTime)
-	{
-		MusicPlayer.backgroundSong.setVolume(.5f);
-		MusicPlayer.backgroundSong.play();
-		if(Math.random() > 0.98)
-		{
-			MusicPlayer.nathanielSnoring.play();
-		}
-		if(MusicPlayer.nathanielSnoring.getPosition() >= 7.0f)
-		{
-			MusicPlayer.nathanielSnoring.stop();
-		}
-		MusicPlayer.wind.setVolume(0.2f);
-		MusicPlayer.wind.play();
-	}
 
 	/**
 	 * Moves the camera to a place.

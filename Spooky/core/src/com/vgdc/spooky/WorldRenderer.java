@@ -22,7 +22,7 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
-	
+
 
 	public WorldRenderer(WorldController worldController) {
 		super();
@@ -36,16 +36,16 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	private void init() {
 		batch = new SpriteBatch();
 //		camera = new OrthographicCamera (Gdx.graphics.getWidth() / Constants.PPM, Gdx.graphics.getHeight() / Constants.PPM);
-	    camera = new OrthographicCamera (Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT); 
+	    camera = new OrthographicCamera (Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0,0,0);
 		camera.update();
 		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-		
+
 	}
 
 	public void render(World world) {
-
-		super.render(world, camera.combined);
+		if (!Constants.DEBUGGING_MAP)
+			super.render(world, camera.combined);
 		renderWorld(batch);
 		renderGui(batch);
 	}
