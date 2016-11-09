@@ -1,10 +1,16 @@
 package com.vgdc.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.vgdc.spooky.Spooky;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 /**
  * Abstraction of a game object that lets us move things,
  * and whatnot.
@@ -37,6 +43,7 @@ public abstract class AbstractGameObject {
 		friction = new Vector2();
 		acceleration = new Vector2();
 		bounds = new Rectangle();
+
 	}
 
 	/**
@@ -88,4 +95,34 @@ public abstract class AbstractGameObject {
 	}
 
 	public abstract void render (SpriteBatch batch);
+
+	//Lis made this for box2d
+	//collision bounds
+	public Body createBox(float x, float y, float width, float height, boolean isStatic){
+		Body pBody;
+
+		//physical properties of the body
+		BodyDef def = new BodyDef();
+		if(isStatic)
+			def.type = BodyType.StaticBody;
+		else
+			def.type = BodyType.DynamicBody;
+
+		def.position.set(x, y);
+		def.fixedRotation = true;
+		//places in the world
+		pBody = Spooky.b2dWorld.createBody(def);
+
+		PolygonShape shape = new PolygonShape();
+		//hit box i guess
+		shape.setAsBox (width, height);
+
+		pBody.createFixture(shape, 1.0f);
+		shape.dispose();
+
+		return pBody;
+	}
+
+	public abstract float getWidth();
+	public abstract float getHeight();
 }
