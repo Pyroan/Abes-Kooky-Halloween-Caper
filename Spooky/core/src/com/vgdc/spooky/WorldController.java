@@ -73,7 +73,8 @@ public class WorldController {
 	 */
 	private void initLevel() {
 		long seed = 123456789; // Seed can be up to 9 digits long (for now).
-		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
+//		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
+		AlternativeMapGen mg = new AlternativeMapGen(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
 		level = new Level(mg.getPixmap());
 		mg.dispose();
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
