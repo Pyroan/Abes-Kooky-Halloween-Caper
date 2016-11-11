@@ -17,7 +17,7 @@ public final class Constants {
 	public static final float PPM = 32;
 
 	// Are we debugging map generation?
-	public static final boolean DEBUGGING_MAP = false;
+	public static final boolean DEBUGGING_MAP = true;
 
 	// Our default map size (in tiles)
 	public static final int MAP_WIDTH = 64;

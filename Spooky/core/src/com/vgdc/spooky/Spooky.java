@@ -27,10 +27,8 @@ import box2dLight.RayHandler;
 
 
 public class Spooky extends ApplicationAdapter {
-	
-	SpriteBatch batch;
 
-	PlayerControls variableName;
+	SpriteBatch batch;
 
 	PlayerControls controller;
 
@@ -59,15 +57,18 @@ public class Spooky extends ApplicationAdapter {
 		//worldRenderer extends b2dr
 
 		//light stuff
+		if (!Constants.DEBUGGING_MAP){
 		rayHandler = new RayHandler(b2dWorld);
 		rayHandler.setAmbientLight(.2f);
 		light = new PointLight(rayHandler, 100, Color.BLACK, 1, 0, 0 );
+		}
 		//light.setSoftnessLength(0f); //if we don't want bleed
 
 		Assets.instance.init(new AssetManager());
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
 		batch = new SpriteBatch();
+
 		initializeThings();
 
 	}
@@ -81,7 +82,7 @@ public class Spooky extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		worldController.update(Gdx.graphics.getDeltaTime());
 		worldRenderer.render(b2dWorld);
-		rayHandler.render();
+		if (rayHandler != null) rayHandler.render();
 		batch.begin();
 		batch.end();
 	}
@@ -90,7 +91,7 @@ public class Spooky extends ApplicationAdapter {
 	public void update(float delta){
 		//world logic before render
 		b2dWorld.step(1/60f, 6, 2);
-		rayHandler.update();
+		if (rayHandler != null) rayHandler.update();
 	}
 
 	@Override
@@ -103,7 +104,7 @@ public class Spooky extends ApplicationAdapter {
 		worldRenderer.dispose();
 		Assets.instance.dispose();
 		b2dWorld.dispose();
-		rayHandler.dispose();
+		if (rayHandler != null) rayHandler.dispose();
 
 	}
 

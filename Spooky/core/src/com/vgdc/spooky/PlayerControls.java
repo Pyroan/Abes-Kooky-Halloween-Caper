@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 
 public class PlayerControls extends InputAdapter
 {
-	float imgX;
-	float imgY;
-	float imgSpeed = 10.0f;
 
 	public PlayerControls()
 	{
