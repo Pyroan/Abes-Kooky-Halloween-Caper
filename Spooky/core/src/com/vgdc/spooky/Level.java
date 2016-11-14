@@ -27,7 +27,7 @@ public class Level implements Disposable {
 	// Display the Pixmap for debugging
 	private boolean showPixmap = Constants.DEBUGGING_MAP;
 	Pixmap pixmap;
-	Texture pmTex;
+	Texture tex;
 
 	/**
 	 * All our potential tiles and what they'll be
@@ -61,6 +61,11 @@ public class Level implements Disposable {
 	public Level(Pixmap pixmap) {
 		init(pixmap);
 	}
+	
+	public Level (String filename) {
+		Pixmap tempMap = new Pixmap(Gdx.files.internal(filename));
+		init(tempMap);
+	}
 
 	// Objects
 	public Array<Tree> trees;
@@ -78,7 +83,7 @@ public class Level implements Disposable {
 	 */
 	private void init(Pixmap pixmap) {
 		this.pixmap = pixmap;
-		pmTex = new Texture(pixmap);
+		tex = new Texture(pixmap);
 		// objects
 		trees = new Array<Tree>();
 		bushes = new Array<Bush>();
@@ -165,8 +170,7 @@ public class Level implements Disposable {
 
 		// Tell me something.
 		Gdx.app.log(TAG, candies.size + " Candies spawned.");
-
-
+		if (player == null) Gdx.app.error(TAG, "Player not spawned!");
 		Gdx.app.debug(TAG,"Level Loaded");
 	}
 
@@ -176,7 +180,7 @@ public class Level implements Disposable {
 	 */
 	public void render (SpriteBatch batch) {
 		if (showPixmap) {
-			batch.draw(pmTex, 0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+			batch.draw(tex, 0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 		} else{
 
 			// Draw Floor
