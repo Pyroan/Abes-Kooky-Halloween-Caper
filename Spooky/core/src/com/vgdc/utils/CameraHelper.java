@@ -29,6 +29,8 @@ public class CameraHelper {
 
 		position.x = target.position.x + target.origin.x;
 		position.y = target.position.y + target.origin.y;
+		position.x = MathUtils.clamp(position.x, Constants.VIEWPORT_WIDTH/2, Constants.MAP_WIDTH - Constants.VIEWPORT_WIDTH /2);
+		position.y = MathUtils.clamp(position.y, Constants.VIEWPORT_HEIGHT/2, Constants.MAP_HEIGHT - Constants.VIEWPORT_WIDTH / 2);
 	}
 
 	public void setPosition (float x, float y) {
