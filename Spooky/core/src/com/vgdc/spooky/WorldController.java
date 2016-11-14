@@ -75,7 +75,9 @@ public class WorldController {
 		long seed = 123456789; // Seed can be up to 9 digits long (for now).
 //		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
 		AlternativeMapGen mg = new AlternativeMapGen(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
-		level = new Level(mg.getPixmap());
+		// We're actually not gonna use Procedural generation for now but I'll leave the code for later.
+		// That's disgusting how Dare I do that.
+		level = new Level(Constants.LEVEL_NAME);
 		mg.dispose();
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();

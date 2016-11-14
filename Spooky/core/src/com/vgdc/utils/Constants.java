@@ -17,7 +17,7 @@ public final class Constants {
 	public static final float PPM = 32;
 
 	// Are we debugging map generation?
-	public static final boolean DEBUGGING_MAP = true;
+	public static final boolean DEBUGGING_MAP = false;
 
 	// Our default map size (in tiles)
 	public static final int MAP_WIDTH = 64;
@@ -37,4 +37,7 @@ public final class Constants {
 
 	// Number of Candies in the game.
 	public static final int NUMBER_OF_CANDIES = 30;
+	
+	// Name of our real level.
+	public static final String LEVEL_NAME = "AKHC-level01.png";
 }
