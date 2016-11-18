@@ -32,8 +32,12 @@ public class Level implements Disposable {
 	/**
 	 * All our potential tiles and what they'll be
 	 * represented with.
-	 * @author Pyroan
 	 *
+	 * You may be wondering why we don't just use
+	 * the OBJECT enum from our Map Generator. TBH
+	 * I don't really know, but I do know that that one
+	 * uses floats for color instead of ints.
+	 * @author Violet M.
 	 */
 	private enum TILE {
 		TREE   (0, 255, 0),	// Green
@@ -46,9 +50,16 @@ public class Level implements Disposable {
 		private int color;
 
 		TILE(int r, int g, int b) {
+			// Converts three color values to
+			// an int. There's some scary bitwise
+			// stuff going on and I don't like it.
 			color = r<<24|g<<16|b<<8|0xff;
 		}
 
+		/**
+		 * @param color
+		 * @return true if the pixel's color matches.
+		 */
 		public boolean sameColor (int color) {
 			return this.color == color;
 		}
@@ -58,10 +69,19 @@ public class Level implements Disposable {
 		}
 	}
 
+	/**
+	 * Takes in a Pixmap made by a MapGenerator.
+	 * @param pixmap
+	 */
 	public Level(Pixmap pixmap) {
 		init(pixmap);
 	}
-	
+
+	/**
+	 * Takes an image file and converts it into a
+	 * pixmap.
+	 * @param filename
+	 */
 	public Level (String filename) {
 		Pixmap tempMap = new Pixmap(Gdx.files.internal(filename));
 		init(tempMap);
@@ -212,14 +232,19 @@ public class Level implements Disposable {
 	 */
 	public void update (float deltaTime) {
 		player.update(deltaTime);
+		// Floor
 		for (Floor floor: tiles)
 			floor.update(deltaTime);
+		// Rocks
 		for (Rock rock: rocks)
 			rock.update(deltaTime);
+		// Bushes
 		for (Bush bush: bushes)
 			bush.update(deltaTime);
+		// Trees
 		for (Tree tree: trees)
 			tree.update(deltaTime);
+		// Candies
 		for (Candy candy: candies)
 			candy.update(deltaTime);
 	}
@@ -231,8 +256,11 @@ public class Level implements Disposable {
 		return candies.size;
 	}
 
+	/**
+	 * Frees memory.
+	 */
 	public void dispose() {
-		// Free memory
+		// Free memory from pixmap
 		pixmap.dispose();
 	}
 }

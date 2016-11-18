@@ -189,6 +189,14 @@ public class WorldController {
 	 * Collision Detection Begins Here   *
 	 * TODO: Turn this into Box2D Stuff. *
 	 *************************************/
+	
+	/**
+	 * Really important note: I'm very tempted to move all this out 
+	 *    into its own class.
+	 * However, since Lis is currently redoing how collision works
+	 *    entirely, there's really not point in spending time doing
+	 *    all that refactoring. I hope.
+	 */
 	Rectangle r1 = new Rectangle();
 	Rectangle r2 = new Rectangle();
 
