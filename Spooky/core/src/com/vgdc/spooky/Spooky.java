@@ -24,15 +24,28 @@ import com.vgdc.utils.Constants;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
-
-
+/**
+ * TFW It's the most important class in the game
+ * but you can't explain what it does.
+ * TODO add an actual comment.
+ * @author Evan S.
+ * Everything using box2d:
+ * @author Lis O.
+ */
 public class Spooky extends ApplicationAdapter {
 
+	// The batch responsible for drawing
+	// 100% of things that are drawn.
 	SpriteBatch batch;
 
+	// The player controller.
+	// Is in progress.
 	PlayerControls controller;
 
+	// Draws the whole world.
 	WorldRenderer worldRenderer;
+	// Updates the world, including the level and
+	// the player and the music and everything.
 	WorldController worldController;
 
 	//box2d stuffs
@@ -44,8 +57,6 @@ public class Spooky extends ApplicationAdapter {
 	//box2d light stuff
 	RayHandler rayHandler;
 	public static PointLight light;
-
-	public Level level;
 
 	@Override
 	public void create () {
@@ -64,6 +75,7 @@ public class Spooky extends ApplicationAdapter {
 		}
 		//light.setSoftnessLength(0f); //if we don't want bleed
 
+		// Initialize all the non-box2d stuff.
 		Assets.instance.init(new AssetManager());
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -94,11 +106,17 @@ public class Spooky extends ApplicationAdapter {
 		if (rayHandler != null) rayHandler.update();
 	}
 
+	/**
+	 * Handles the window being resized.
+	 */
 	@Override
 	public void resize(int width, int height) {
 		worldRenderer.resize(width, height);
 	}
 
+	/**
+	 * Frees memory.
+	 */
 	@Override
 	public void dispose() {
 		worldRenderer.dispose();

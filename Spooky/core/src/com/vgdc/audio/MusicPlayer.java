@@ -7,7 +7,8 @@ import com.badlogic.gdx.audio.Music;
  * Handles our music
  * @author Nathaniel
  * But Evan was nice and actually moved all his code
- * into here.
+ * into here from Worldcontroller. WHY WAS IT IN
+ * WORLDCONTROLLER?
  */
 public class MusicPlayer
 {
