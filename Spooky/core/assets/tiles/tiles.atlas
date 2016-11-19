@@ -1,82 +1,69 @@
 
 tiles.png
-size: 512,256
+size: 256,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Big Tree
+  rotate: false
+  xy: 2, 35
+  size: 128, 192
+  orig: 128, 192
+  offset: 0, 0
+  index: -1
 abe
   rotate: false
-  xy: 104, 40
+  xy: 234, 195
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 abe-back
   rotate: false
-  xy: 355, 167
+  xy: 234, 161
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 abe-left
   rotate: false
-  xy: 104, 6
+  xy: 234, 127
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 abe-right
   rotate: false
-  xy: 355, 133
+  xy: 227, 93
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
-arial-15
-  rotate: false
-  xy: 2, 104
-  size: 256, 128
-  orig: 256, 128
-  offset: 0, 0
-  index: -1
 bush
   rotate: false
-  xy: 104, 74
+  xy: 2, 5
   size: 28, 28
   orig: 28, 28
   offset: 0, 0
   index: -1
 rock1
   rotate: false
-  xy: 2, 2
+  xy: 132, 127
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 snowtile
   rotate: false
-  xy: 260, 132
+  xy: 132, 25
   size: 93, 100
   orig: 93, 100
   offset: 0, 0
   index: -1
 tree1
   rotate: false
-  xy: 355, 201
+  xy: 32, 2
   size: 25, 31
   orig: 25, 31
-  offset: 0, 0
-  index: -1
-
-tiles2.png
-size: 64,64
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-particles/particle
-  rotate: false
-  xy: 2, 2
-  size: 32, 32
-  orig: 32, 32
   offset: 0, 0
   index: -1

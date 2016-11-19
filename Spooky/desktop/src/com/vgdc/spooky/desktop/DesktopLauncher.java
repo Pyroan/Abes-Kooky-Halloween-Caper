@@ -17,7 +17,7 @@ public class DesktopLauncher {
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "../core/assets", "../core/assets", "tiles");
+			TexturePacker.process(settings, "../core/assets/tiles", "../core/assets/tiles", "tiles");
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
