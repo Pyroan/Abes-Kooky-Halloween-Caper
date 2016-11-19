@@ -103,7 +103,7 @@ public class Assets implements Disposable, AssetErrorListener
 
 		public AssetTree(TextureAtlas atlas)
 		{
-			tree1 = atlas.findRegion("tree1");
+			tree1 = atlas.findRegion("Big Tree");
 		}
 
 	}

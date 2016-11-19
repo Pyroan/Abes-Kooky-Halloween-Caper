@@ -33,7 +33,7 @@ public final class Constants {
 	public static final float VIEWPORT_GUI_HEIGHT = 720;
 
 	// Reference to the Texture Atlas
-	public static final String TEXTURE_ATLAS_OBJECTS = "tiles.atlas";
+	public static final String TEXTURE_ATLAS_OBJECTS = "tiles/tiles.atlas";
 
 	// Number of Candies in the game.
 	public static final int NUMBER_OF_CANDIES = 30;
