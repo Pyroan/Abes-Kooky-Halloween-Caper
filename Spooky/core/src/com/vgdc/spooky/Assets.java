@@ -37,6 +37,7 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetAbeLeft left;
 	public AssetAbeRight right;
 	public AssetCandy candy;
+	public AssetHouse house;
 
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
@@ -73,6 +74,7 @@ public class Assets implements Disposable, AssetErrorListener
 		left = new AssetAbeLeft(atlas);
 		right = new AssetAbeRight(atlas);
 		candy = new AssetCandy(atlas);
+		house = new AssetHouse(atlas);
 		
 	}
 	@Override
@@ -172,6 +174,15 @@ public class Assets implements Disposable, AssetErrorListener
 		public AssetCandy(TextureAtlas atlas)
 		{
 			candy = atlas.findRegion("candy");
+		}
+	}
+	
+	public class AssetHouse
+	{
+		public final AtlasRegion house;
+		public AssetHouse(TextureAtlas atlas)
+		{
+			house = atlas.findRegion("vertical-house");
 		}
 	}
 
