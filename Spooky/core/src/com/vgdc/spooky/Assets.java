@@ -36,6 +36,7 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetAbeBack back;
 	public AssetAbeLeft left;
 	public AssetAbeRight right;
+	public AssetCandy candy;
 
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
@@ -71,6 +72,7 @@ public class Assets implements Disposable, AssetErrorListener
 		back = new AssetAbeBack(atlas);
 		left = new AssetAbeLeft(atlas);
 		right = new AssetAbeRight(atlas);
+		candy = new AssetCandy(atlas);
 		
 	}
 	@Override
@@ -91,7 +93,7 @@ public class Assets implements Disposable, AssetErrorListener
 		public final AtlasRegion tiles1;
 		public AssetTiles(TextureAtlas atlas)
 		{
-			tiles1 = atlas.findRegion("snowtile");
+			tiles1 = atlas.findRegion("snow - Copy");
 		}
 	}
 
@@ -164,6 +166,14 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 	}
 	
+	public class AssetCandy
+	{
+		public final AtlasRegion candy;
+		public AssetCandy(TextureAtlas atlas)
+		{
+			candy = atlas.findRegion("candy");
+		}
+	}
 
 }
 
