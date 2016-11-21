@@ -84,6 +84,7 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	public void resize(int width, int height) {
 		// Update the World camera.
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/ height) * width;
+
 		camera.update();
 		// Update the GUI camera.
 		cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
