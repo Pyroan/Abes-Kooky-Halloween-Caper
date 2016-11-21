@@ -7,6 +7,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.vgdc.spooky.Spooky;
 
 public class DesktopLauncher {
+	// Builds the Sprite Sheet (Texture Atlas)
 	private static boolean rebuildAtlas  = false;
 	private static boolean drawDebugOutline = false;
 	public static void main (String[] arg) {
@@ -17,9 +18,9 @@ public class DesktopLauncher {
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "../core/assets", "../core/assets", "tiles");
+			TexturePacker.process(settings, "../core/assets/tiles", "../core/assets/tiles", "tiles");
 		}
-
+	// Sets up the whole shebang (i.e. the game/window).
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1280;
 		config.height = 720;

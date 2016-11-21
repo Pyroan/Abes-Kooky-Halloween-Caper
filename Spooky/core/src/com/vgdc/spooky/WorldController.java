@@ -78,6 +78,7 @@ public class WorldController {
 		// We're actually not gonna use Procedural generation for now but I'll leave the code for later.
 		// That's disgusting how Dare I do that.
 		level = new Level(Constants.LEVEL_NAME);
+//		level = new Level(mg.getPixmap());
 		mg.dispose();
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();
