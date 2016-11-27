@@ -48,7 +48,7 @@ public class CameraHelper {
 		// Clamp the camera's position to within the map's range.
 		// (We don't want to be able to see anything outside the map.
 		position.x = MathUtils.clamp(position.x, Constants.VIEWPORT_WIDTH/2, Constants.MAP_WIDTH - Constants.VIEWPORT_WIDTH /2);
-		position.y = MathUtils.clamp(position.y, Constants.VIEWPORT_HEIGHT/2, Constants.MAP_HEIGHT - Constants.VIEWPORT_HEIGHT / 2);
+		position.y = MathUtils.clamp(position.y, Constants.VIEWPORT_HEIGHT/2 + 1, Constants.MAP_HEIGHT - Constants.VIEWPORT_HEIGHT / 2 + 2);
 	}
 
 	/**
