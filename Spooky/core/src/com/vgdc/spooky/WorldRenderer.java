@@ -57,9 +57,10 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 	private void renderGui(SpriteBatch batch) {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
-		worldController.encounterHandler.render(batch);
 		worldController.snow.setPosition(0, Constants.VIEWPORT_GUI_HEIGHT);
 		worldController.snow.draw(batch);
+		worldController.encounterHandler.render(batch);
+		worldController.uiController.render(batch);
 		batch.end();
 	}
 
