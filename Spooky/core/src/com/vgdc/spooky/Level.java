@@ -40,7 +40,7 @@ public class Level implements Disposable {
 	 * uses floats for color instead of ints.
 	 * @author Evan S.
 	 */
-	private enum TILE {
+	protected enum TILE {
 		TREE   (0, 255, 0),	// Green
 		BUSH   (255, 255, 0),	// Yellow
 		GROUND (0, 0, 0),	// Black

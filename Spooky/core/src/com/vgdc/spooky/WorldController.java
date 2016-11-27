@@ -15,6 +15,7 @@ import com.vgdc.objects.Candy;
 import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
+import com.vgdc.ui.UIController;
 import com.vgdc.utils.CameraHelper;
 import com.vgdc.utils.Constants;
 
@@ -39,7 +40,10 @@ public class WorldController {
 	public PlayerControls controller;
 
 	public MusicPlayer musicPlayer;
+	
+	public UIController uiController;
 
+	// Should maybe be handled by UI controller?
 	public EncounterHandler encounterHandler;
 
 	public int numberOfCandies;
@@ -63,6 +67,7 @@ public class WorldController {
 		encounterHandler = new EncounterHandler();
 		controller = new PlayerControls();
 		musicPlayer = new MusicPlayer();
+		uiController = new UIController();
 		snow.load(Gdx.files.internal("particles/Snow"), Gdx.files.internal("particles"));
 		collectedCandies = 0;
 		initLevel();
@@ -97,6 +102,7 @@ public class WorldController {
 		handleDebugInput(deltaTime);
 		handleCameraMovement(deltaTime);
 		handlePlayerMovement(deltaTime);
+		uiController.update(deltaTime);
 		level.update(deltaTime);
 		testForCollision();
 		cameraHelper.update(deltaTime);
