@@ -49,8 +49,8 @@ public class GameTimer {
 		// Calculations done. Time to convert to a pretty string.
 
 		// Only bother with hours if they've actually passed.
+		time = "";
 		if (hours > 0) time = hours + ":";
-		else time = " ";
 		// If minutes and seconds < 10, need to add a 0
 		if (minutes < 10) time+= "0";
 		time+= minutes + ":";
