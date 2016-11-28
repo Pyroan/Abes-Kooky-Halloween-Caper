@@ -33,7 +33,7 @@ public class UIController {
 		param.size = 24;
 		font = ftGen.generateFont(param);
 		// Set up the timer.
-		timer = new GameTimer(7195);
+		timer = new GameTimer();
 //		minimap = new Minimap();
 		counter = new CandyCounter();
 	}
