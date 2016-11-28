@@ -11,7 +11,8 @@ import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
 import com.vgdc.objects.Floor;
-import com.vgdc.objects.House;
+import com.vgdc.objects.HorizontalHouse;
+import com.vgdc.objects.VerticalHouse;
 import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
@@ -47,7 +48,8 @@ public class Level implements Disposable {
 		ROCK   (255, 0, 0),	// Red
 		PLAYER (255, 255, 255), // White
 		CANDY  (255, 0, 255), // Magenta
-		HOUSE (0, 255, 255);	// Cyan
+		VERTICAL_HOUSE (0, 255, 255),	// Cyan
+		HORIZONTAL_HOUSE(0, 0, 255);	// Blue
 
 		private int color;
 
@@ -95,7 +97,8 @@ public class Level implements Disposable {
 	public Array<Rock> rocks;
 	public Array<Floor> tiles;
 	public Array<Candy> candies;
-	public Array<House> houses;
+	public Array<VerticalHouse> verticalHouses;
+	public Array<HorizontalHouse> horizontalHouses;
 
 	public Player player;
 
@@ -113,7 +116,8 @@ public class Level implements Disposable {
 		rocks = new Array<Rock>();
 		tiles = new Array<Floor>();
 		candies = new Array<Candy>();
-		houses = new Array<House>();
+		verticalHouses = new Array<VerticalHouse>();
+		horizontalHouses = new Array<HorizontalHouse>();
 		for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
 			for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
 				AbstractGameObject obj = null;
@@ -176,11 +180,18 @@ public class Level implements Disposable {
 					candies.add((Candy)obj);
 				}
 				
-				// House
-				else if (TILE.HOUSE.sameColor(currentPixel)) {
-					obj = new House();
+				// Vertical House
+				else if (TILE.VERTICAL_HOUSE.sameColor(currentPixel)) {
+					obj = new VerticalHouse();
 					obj.position.set(pixelX, baseHeight);
-					houses.add((House)obj);
+					verticalHouses.add((VerticalHouse)obj);
+				}
+				
+				// Horizontal House
+				else if (TILE.HORIZONTAL_HOUSE.sameColor(currentPixel)) {
+					obj = new HorizontalHouse();
+					obj.position.set(pixelX, baseHeight);
+					horizontalHouses.add((HorizontalHouse)obj);
 				}
 
 				else if (TILE.GROUND.sameColor(currentPixel)) {
@@ -236,7 +247,10 @@ public class Level implements Disposable {
 
 			player.render(batch);
 			// Draw houses
-			for (House house: houses)
+			for (VerticalHouse house: verticalHouses)
+				house.render(batch);
+			// Draw horizontal houses
+			for (HorizontalHouse house: horizontalHouses)
 				house.render(batch);
 		}
 	}
@@ -254,7 +268,9 @@ public class Level implements Disposable {
 			rock.update(deltaTime);
 		
 		// Houses
-		for (House house: houses)
+		for (VerticalHouse house: verticalHouses)
+			house.update(deltaTime);
+		for (HorizontalHouse house: horizontalHouses)
 			house.update(deltaTime);
 		// Bushes
 		for (Bush bush: bushes)
