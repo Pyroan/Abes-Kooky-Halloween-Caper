@@ -40,7 +40,7 @@ public class WorldController {
 	public PlayerControls controller;
 
 	public MusicPlayer musicPlayer;
-	
+
 	public UIController uiController;
 
 	// Should maybe be handled by UI controller?
@@ -99,14 +99,20 @@ public class WorldController {
 			return;
 		}
 		encounterHandler.update(deltaTime);
+		// Input Handling
 		handleDebugInput(deltaTime);
 		handleCameraMovement(deltaTime);
 		handlePlayerMovement(deltaTime);
+		// Update UI/Level Objects
 		uiController.update(deltaTime);
 		level.update(deltaTime);
-		testForCollision();
+		//Test for collision
+		if (Constants.ENABLE_COLLISION) testForCollision();
+		// Move Camera
 		cameraHelper.update(deltaTime);
+		// Play Music
 		musicPlayer.update(deltaTime);
+		// Update Snow.
 		snow.update(deltaTime);
 	}
 
@@ -196,9 +202,9 @@ public class WorldController {
 	 * Collision Detection Begins Here   *
 	 * TODO: Turn this into Box2D Stuff. *
 	 *************************************/
-	
+
 	/**
-	 * Really important note: I'm very tempted to move all this out 
+	 * Really important note: I'm very tempted to move all this out
 	 *    into its own class.
 	 * However, since Lis is currently redoing how collision works
 	 *    entirely, there's really not point in spending time doing

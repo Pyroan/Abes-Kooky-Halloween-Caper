@@ -31,6 +31,8 @@ public class UIController {
 	{
 		// Set up some font stuff.
 		param.size = 24;
+		param.borderColor = Color.BLACK;
+		param.borderWidth = 2;
 		font = ftGen.generateFont(param);
 		// Set up the timer.
 		timer = new GameTimer();
@@ -46,21 +48,28 @@ public class UIController {
 
 	public void render(SpriteBatch batch)
 	{
-		drawTime(batch);
+		drawBase();
+		drawTime(batch, 10, (int)Constants.VIEWPORT_GUI_HEIGHT-10);
 //		minimap.render(batch);
+	}
+
+	/**
+	 * Draws all the boxes things should be put in.
+	 */
+	public void drawBase()
+	{
+
 	}
 
 	/**
 	 * Draws the GameTimer's time, in a box.
 	 * @param batch
 	 */
-	public void drawTime(SpriteBatch batch)
+	public void drawTime(SpriteBatch batch, int x, int y)
 	{
-		String time = timer.getTime();
-
 		// Draw the text
-		font.setColor(Color.RED);
-		font.draw(batch, time, 10,
-				Constants.VIEWPORT_GUI_HEIGHT - 10);
+		String time = timer.getTime();
+		font.setColor(Color.WHITE);
+		font.draw(batch, time, x, y);
 	}
 }

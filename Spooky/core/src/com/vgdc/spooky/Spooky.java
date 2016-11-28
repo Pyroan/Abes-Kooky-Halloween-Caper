@@ -68,7 +68,7 @@ public class Spooky extends ApplicationAdapter {
 		//worldRenderer extends b2dr
 
 		//light stuff
-		if (!Constants.DEBUGGING_MAP){
+		if (Constants.ENABLE_LIGHTS){
 		rayHandler = new RayHandler(b2dWorld);
 		rayHandler.setAmbientLight(.2f);
 		light = new PointLight(rayHandler, 100, Color.BLACK, 1, 0, 0 );
