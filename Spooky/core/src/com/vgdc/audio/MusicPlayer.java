@@ -22,7 +22,7 @@ public class MusicPlayer
 	public MusicPlayer()
 	{
 		backgroundSong =
-				Gdx.audio.newMusic(Gdx.files.internal("Piano Abuse.mp3"));
+				Gdx.audio.newMusic(Gdx.files.internal("Snow in October.mp3"));
 		nathanielSnoring =
 				Gdx.audio.newMusic(Gdx.files.internal("Nathaniel Snoring.mp3"));
 		wind = Gdx.audio.newMusic(Gdx.files.internal("wind.mp3"));

@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.vgdc.objects.Tree;
+import com.vgdc.ui.Fonts;
 import com.vgdc.utils.Constants;
 
 import box2dLight.PointLight;
@@ -77,6 +78,7 @@ public class Spooky extends ApplicationAdapter {
 
 		// Initialize all the non-box2d stuff.
 		Assets.instance.init(new AssetManager());
+		Fonts.instance.init();
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
 		batch = new SpriteBatch();

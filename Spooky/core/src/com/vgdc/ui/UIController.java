@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.vgdc.spooky.Assets;
 import com.vgdc.utils.Constants;
 import com.vgdc.utils.GameTimer;
 
@@ -20,24 +21,15 @@ public class UIController {
 
 	private Minimap minimap; // -shrug-
 	private GameTimer timer; // -another, slightly bigger shrug
-	private CandyCounter counter; // -a third, even bigger shrug-
+	private Counter counter; // -a third, even bigger shrug-
 	// Look, it's shrugs all the way down, ok?
-
-	FreeTypeFontGenerator ftGen = new FreeTypeFontGenerator(Gdx.files.internal("Gamer.ttf"));
-	FreeTypeFontParameter param = new FreeTypeFontParameter();
-	BitmapFont font;
 
 	public UIController()
 	{
-		// Set up some font stuff.
-		param.size = 24;
-		param.borderColor = Color.BLACK;
-		param.borderWidth = 2;
-		font = ftGen.generateFont(param);
 		// Set up the timer.
 		timer = new GameTimer();
 //		minimap = new Minimap();
-		counter = new CandyCounter();
+		counter = new Counter(30);
 	}
 
 	public void update(float deltaTime)
@@ -50,6 +42,8 @@ public class UIController {
 	{
 		drawBase();
 		drawTime(batch, 10, (int)Constants.VIEWPORT_GUI_HEIGHT-10);
+		Fonts.instance.gamer.setColor(Color.MAGENTA);
+		counter.render(batch, 10, (int)Constants.VIEWPORT_GUI_HEIGHT-10-(int)Fonts.instance.gamer.getLineHeight());
 //		minimap.render(batch);
 	}
 
@@ -69,7 +63,7 @@ public class UIController {
 	{
 		// Draw the text
 		String time = timer.getTime();
-		font.setColor(Color.WHITE);
-		font.draw(batch, time, x, y);
+		Fonts.instance.gamer.setColor(Color.WHITE);
+		Fonts.instance.gamer.draw(batch, time, x, y);
 	}
 }
