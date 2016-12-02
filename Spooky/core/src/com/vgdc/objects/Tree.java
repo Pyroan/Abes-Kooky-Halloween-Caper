@@ -23,10 +23,12 @@ public class Tree extends AbstractGameObject{
 
 	@Override
 	public void render(SpriteBatch batch) {
+		boolean flipX = Math.random() > .9999 ? true : false;
+		boolean flipY = Math.random() > .9999 ? true : false;
 		batch.draw(reg.getTexture(), position.x, position.y,
 				origin.x, origin.y, dimension.x, dimension.y,
 				scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),
-				reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+				reg.getRegionWidth(), reg.getRegionHeight(), flipX, flipY);
 	}
 
 	public float getWidth() {
