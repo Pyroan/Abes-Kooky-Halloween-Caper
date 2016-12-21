@@ -37,7 +37,7 @@ public class Player extends AbstractGameObject
 		right = new TextureRegion(Assets.instance.right.right1);
 		
 		dimension.set(1,2);
-//		bounds.set(origin.x,origin.y, dimension.x * .75f, dimension.y * .75f);
+		bounds.set(dimension.x -.1f, dimension.y - .1f);
 		origin.set(dimension.x/2, dimension.y/2);
 		terminalVelocity.set(3.0f, 3.0f);
 		friction.set(12.0f, 12.0f);

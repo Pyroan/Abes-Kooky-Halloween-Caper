@@ -144,7 +144,6 @@ public class Level implements Disposable {
 				if (TILE.TREE.sameColor(currentPixel)) {
 					obj = new Tree();
 					obj.position.set(pixelX, baseHeight);
-					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					trees.add((Tree)obj);
 
 				}
@@ -153,7 +152,6 @@ public class Level implements Disposable {
 				else if (TILE.BUSH.sameColor(currentPixel)) {
 					obj = new Bush();
 					obj.position.set(pixelX, baseHeight);
-					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					bushes.add((Bush)obj);
 				}
 
@@ -161,7 +159,6 @@ public class Level implements Disposable {
 				else if (TILE.ROCK.sameColor(currentPixel)) {
 					obj = new Rock();
 					obj.position.set(pixelX, baseHeight);
-					obj.createBox(obj.position.x, obj.position.y, obj.getWidth(), obj.getHeight(), true);
 					rocks.add((Rock)obj);
 				}
 
@@ -204,8 +201,8 @@ public class Level implements Disposable {
 					int g = 0xff & (currentPixel >>> 16); // green color channel
 					int b = 0xff & (currentPixel >>> 8);  // blue color channel
 					int a = 0xff & (currentPixel);
-					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<"
-							+ pixelY + ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">");
+//					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<"
+//							+ pixelY + ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">");
 				}
 			}
 		}

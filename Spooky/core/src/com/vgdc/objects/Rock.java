@@ -16,6 +16,7 @@ public class Rock extends AbstractGameObject{
 	// Sets some stuff, finds reg.
 	private void init() {
 		dimension.set(2,2);
+		bounds.set(2,2);
 		reg = Assets.instance.rock.rock;
 	}
 
