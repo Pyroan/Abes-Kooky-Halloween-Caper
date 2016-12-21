@@ -16,8 +16,11 @@ import com.vgdc.utils.Constants;
  * @author Lis O.
  * to make box2d work
  */
-public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
+public class WorldRenderer implements Disposable {
 
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+	private Box2DDebugRenderer b2debugRenderer;
+	
 	private OrthographicCamera camera;
 	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
@@ -40,12 +43,10 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 		camera.position.set(0,0,0);
 		camera.update();
 		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-
+		b2debugRenderer = new Box2DDebugRenderer();
 	}
 
-	public void render(World world) {
-		if (!Constants.DEBUGGING_MAP)
-			super.render(world, camera.combined);
+	public void render() {
 		renderWorld(batch);
 		renderGui(batch);
 	}
@@ -75,6 +76,8 @@ public class WorldRenderer extends Box2DDebugRenderer implements Disposable {
 		batch.begin();
 		worldController.level.render(batch);
 		batch.end();
+		if (DEBUG_DRAW_BOX2D_WORLD)
+			b2debugRenderer.render(worldController.b2world, camera.combined);
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class Candy extends AbstractGameObject
 		reg = Assets.instance.candy.candy;
 		
 		collected = false;
-		bounds.set(0,0, dimension.x, dimension.y);
+		bounds.set(dimension.x * .25f, dimension.y * .25f);
 		origin.set(dimension.x/2, dimension.y/2);
 		scale.set(.50f, .50f);
 	}

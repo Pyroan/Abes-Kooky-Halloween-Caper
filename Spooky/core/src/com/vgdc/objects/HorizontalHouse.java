@@ -14,7 +14,7 @@ public class HorizontalHouse extends AbstractGameObject {
 	
 	private void init() {
 		dimension.set(8, 6);
-		bounds.set(0, 0, dimension.x, dimension.y);
+		bounds.set(dimension.x, dimension.y-1);
 		origin.set(dimension.x/2, dimension.y/2);
 		reg = Assets.instance.hHouse.hHouse;
 	}

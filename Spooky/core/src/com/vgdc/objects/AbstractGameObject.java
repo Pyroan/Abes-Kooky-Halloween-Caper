@@ -30,7 +30,9 @@ public abstract class AbstractGameObject {
 	// doesn't just stop in their tracks.
 
 	public Vector2 acceleration;
-	public Rectangle bounds;
+	public Vector2 bounds;
+	
+	public Body body;
 
 	public AbstractGameObject() {
 		position = new Vector2();
@@ -42,7 +44,7 @@ public abstract class AbstractGameObject {
 		terminalVelocity = new Vector2(1,1);
 		friction = new Vector2();
 		acceleration = new Vector2();
-		bounds = new Rectangle();
+		bounds = new Vector2();
 
 	}
 
@@ -87,41 +89,22 @@ public abstract class AbstractGameObject {
 	 * @param deltaTime
 	 */
 	public void update (float deltaTime) {
+		
+		if (body == null)
+		{
 		updateMotionX(deltaTime);
 		updateMotionY(deltaTime);
 		// Move to new position
 		position.x += velocity.x * deltaTime;
 		position.y += velocity.y * deltaTime;
+		} else
+		{
+			position.set(body.getPosition());
+		}
 	}
 
 	public abstract void render (SpriteBatch batch);
 
-	//Lis made this for box2d
-	//collision bounds
-	public Body createBox(float x, float y, float width, float height, boolean isStatic){
-		Body pBody;
-
-		//physical properties of the body
-		BodyDef def = new BodyDef();
-		if(isStatic)
-			def.type = BodyType.StaticBody;
-		else
-			def.type = BodyType.DynamicBody;
-
-		def.position.set(x, y);
-		def.fixedRotation = true;
-		//places in the world
-		pBody = Spooky.b2dWorld.createBody(def);
-
-		PolygonShape shape = new PolygonShape();
-		//hit box i guess
-		shape.setAsBox (width, height);
-
-		pBody.createFixture(shape, 1.0f);
-		shape.dispose();
-
-		return pBody;
-	}
 
 	public abstract float getWidth();
 	public abstract float getHeight();

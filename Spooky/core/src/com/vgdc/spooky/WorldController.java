@@ -6,24 +6,33 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Align;
 import com.vgdc.audio.MusicPlayer;
 import com.vgdc.encounters.EncounterHandler;
 import com.vgdc.objects.AbstractGameObject;
 import com.vgdc.objects.Bush;
 import com.vgdc.objects.Candy;
+import com.vgdc.objects.HorizontalHouse;
 import com.vgdc.objects.Player;
 import com.vgdc.objects.Rock;
 import com.vgdc.objects.Tree;
+import com.vgdc.objects.VerticalHouse;
 import com.vgdc.ui.UIController;
 import com.vgdc.utils.CameraHelper;
 import com.vgdc.utils.Constants;
 
 /**
- * I'd be lying if i said I was prepared to explain
- * what this does.
- * In class it's been functioning simultaneously
- * as an input handler and a collision detector.
+ * Essentially handles everything physically in our world,
+ * like collision, player movement, and the level which holds
+ * all the objects in the world.
  *
  * This class is getting extremely out of hand.
  * @author Evan S.
@@ -42,6 +51,11 @@ public class WorldController {
 	public MusicPlayer musicPlayer;
 
 	public UIController uiController;
+
+	public World b2world;
+
+	// Eventually:
+	//	public CollisionHandler collisionHandler;
 
 	// Should maybe be handled by UI controller?
 	public EncounterHandler encounterHandler;
@@ -71,6 +85,9 @@ public class WorldController {
 		snow.load(Gdx.files.internal("particles/Snow"), Gdx.files.internal("particles"));
 		collectedCandies = 0;
 		initLevel();
+		initPhysics();
+		// Eventually
+		//		b2world.setContactListener(contactHandler);
 	}
 
 	/**
@@ -78,12 +95,12 @@ public class WorldController {
 	 */
 	private void initLevel() {
 		long seed = 123456789; // Seed can be up to 9 digits long (for now).
-//		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
+		//		MapGenerator mg = new MapGenerator(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
 		AlternativeMapGen mg = new AlternativeMapGen(Constants.MAP_WIDTH, Constants.MAP_HEIGHT, seed);
 		// We're actually not gonna use Procedural generation for now but I'll leave the code for later.
 		// That's disgusting how Dare I do that.
 		level = new Level(Constants.LEVEL_NAME);
-//		level = new Level(mg.getPixmap());
+		//		level = new Level(mg.getPixmap());
 		mg.dispose();
 		if (!Constants.DEBUGGING_MAP) cameraHelper.setTarget(level.player);
 		numberOfCandies = level.getNumberOfCandies();
@@ -106,8 +123,7 @@ public class WorldController {
 		// Update UI/Level Objects
 		uiController.update(deltaTime);
 		level.update(deltaTime);
-		//Test for collision
-		if (Constants.ENABLE_COLLISION) testForCollision();
+		b2world.step(1/60f, 8, 3);
 		// Move Camera
 		cameraHelper.update(deltaTime);
 		// Play Music
@@ -179,119 +195,98 @@ public class WorldController {
 	public void handlePlayerMovement(float deltaTime)
 	{
 		if (!cameraHelper.hasTarget(level.player)) return;
-
+		Vector2 moveVector = new Vector2();
 		if (Gdx.input.isKeyPressed(Keys.W)) {
-			level.player.velocity.y = level.player.terminalVelocity.y;
+			moveVector.y = level.player.terminalVelocity.y;
 			level.player.setTexture(level.player.back);
 		} else if (Gdx.input.isKeyPressed(Keys.S)) {
-			level.player.velocity.y = -level.player.terminalVelocity.y;
+			moveVector.y = -level.player.terminalVelocity.y;
 			level.player.setTexture(level.player.front);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.A)) {
-			level.player.velocity.x = -level.player.terminalVelocity.x;
+			moveVector.x = -level.player.terminalVelocity.x;
 			level.player.setTexture(level.player.left);
 		}else if (Gdx.input.isKeyPressed(Keys.D)) {
-			level.player.velocity.x = level.player.terminalVelocity.x;
+			moveVector.x = level.player.terminalVelocity.x;
 			level.player.setTexture(level.player.right);
 		}
+
+		level.player.body.setLinearVelocity(moveVector);
 	}
 
 
 	/*************************************
-	 * Collision Detection Begins Here   *
-	 * TODO: Turn this into Box2D Stuff. *
+	 *    Beware: Physics Begins Here    *
 	 *************************************/
 
 	/**
-	 * Really important note: I'm very tempted to move all this out
-	 *    into its own class.
-	 * However, since Lis is currently redoing how collision works
-	 *    entirely, there's really not point in spending time doing
-	 *    all that refactoring. I hope.
+	 * Sets up Box2D Bodies
 	 */
-	Rectangle r1 = new Rectangle();
-	Rectangle r2 = new Rectangle();
-
-	/**
-	 * How to pick up candies.
-	 * @param candy the Candy the player is colliding with.
-	 */
-	private void onCollisionPlayerWithCandy (Candy candy) {
-		candy.collected = true;
-		collectedCandies++;
-		Gdx.app.log(TAG, "Candy Collected");
+	private void initPhysics()
+	{
+		if (b2world != null) b2world.dispose();
+		b2world = new World(new Vector2(0, 0), true);
+		// Trees
+		for (Tree tree: level.trees)
+			makeBody(tree, BodyType.StaticBody, 0, "Tree", Align.bottom);
+		// Houses
+		for (HorizontalHouse house: level.horizontalHouses)
+			makeBody(house, BodyType.StaticBody, 0, "House", Align.bottom);
+		for (VerticalHouse house: level.verticalHouses)
+			makeBody(house, BodyType.StaticBody, 0, "House", Align.bottom);
+		// Rocks
+		for (Rock rock: level.rocks)
+			makeBody(rock, BodyType.StaticBody, 0, "Rock", Align.bottom);
+		// Candies
+		for (Candy candy: level.candies)
+			makeBody(candy, BodyType.KinematicBody, 0, "Candy", Align.center);
+		// Player
+		makeBody(level.player, BodyType.DynamicBody, 0, "Player", Align.center);
 	}
 
 	/**
-	 * How to not be on walls.
-	 * @param wall
+	 * Makes a new box-shaped body for an object
+	 * @param object The object we're creating a body for
+	 * @param bodyType The type of body to be created
+	 * @param friction The friction component of the body's fixture
+	 * @param data The name of the object, used for collision handling.
 	 */
-	private void onCollisionPlayerWithWall (AbstractGameObject wall) {
-		Player player = level.player;
-		float yDiff = Math.abs(wall.bounds.y - player.bounds.y);
-		float yGoal = wall.bounds.height/2 + player.bounds.height/2;
+	private void makeBody(AbstractGameObject object, BodyType bodyType, float friction, String data, int alignment)
+	{
+		Vector2 origin = new Vector2();
 
-		// If  they're too close together, move them apart.
-		if (yDiff < yGoal){
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = bodyType;
+		bodyDef.position.set(object.position);
+		Body body = b2world.createBody(bodyDef);
+		body.setUserData(data);
+		object.body = body;
 
-			if (player.position.y > wall.position.y) {
-				player.position.y += (1 - yGoal - yDiff);
-			}
-			if (player.position.y < wall.position.y){
-				player.position.y -= (1 - yGoal - yDiff);
-			}
+		PolygonShape polygonShape = new PolygonShape();
+		// Need to offset center of box depending on alignment
+		if (alignment == Align.bottom)
+		{
+			origin.x = object.bounds.x / 2.0f;
+			origin.y = object.bounds.y / 2.0f;
+			
+		} 
+		else if (alignment == Align.center)
+		{
+			origin.x = object.dimension.x / 2.0f;
+			origin.y = object.dimension.y / 2.0f;
+		} 
+		else
+		{
+			Gdx.app.error(TAG, "Invalid Alignment for " + data + " : " + alignment);
 		}
-
-		float xDiff = Math.abs(wall.bounds.x - player.bounds.x);
-		float xGoal = wall.bounds.width/2 + player.bounds.width/2;
-
-		if (xDiff < xGoal) {
-			if (player.position.x > wall.position.x) {
-				player.position.x += (1 - xGoal - xDiff);
-			}
-			if (player.position.x < wall.position.x){
-				player.position.x -= (1 -xGoal - xDiff);
-			}
-		}
-
-		float y = 1-yGoal - yDiff;
-		float x = 1-xDiff-xGoal;
-		Gdx.app.log(TAG, "U HIT DA WALL. " + y + " " + x );
-	}
-
-	/**
-	 * ... Collision Detection (For real this time)
-	 */
-	private void testForCollision () {
-		r1.set(level.player.position.x, level.player.position.y,
-				level.player.bounds.width, level.player.bounds.height);
-
-		for (Candy candy : level.candies) {
-			r2.set(candy.position.x, candy.position.y, candy.bounds.width, candy.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			if (!candy.collected)
-				onCollisionPlayerWithCandy(candy);
-			break;
-		}
-
-		// I don't wanna test all these walls :\
-		for (Tree tree: level.trees) {
-			r2.set(tree.position.x, tree.position.y, tree.bounds.width, tree.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithWall(tree);
-		}
-
-		for (Bush bush: level.bushes) {
-			r2.set(bush.position.x, bush.position.y, bush.bounds.width, bush.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithWall(bush);
-		}
-
-		for (Rock rock: level.rocks) {
-			r2.set(rock.position.x, rock.position.y, rock.bounds.width, rock.bounds.height);
-			if (!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithWall(rock);
-		}
+		
+		polygonShape.setAsBox(object.bounds.x/2.0f,
+				object.bounds.y/2.0f, origin, 0);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = polygonShape;
+		fixtureDef.friction = friction;
+		body.createFixture(fixtureDef);
+		polygonShape.dispose();
 	}
 }

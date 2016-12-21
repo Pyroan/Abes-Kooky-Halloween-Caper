@@ -14,7 +14,7 @@ public class VerticalHouse extends AbstractGameObject{
 	
 	private void init() {
 		dimension.set(4,8);
-		bounds.set(0, 0, dimension.x, dimension.y);
+		bounds.set(dimension.x, dimension.y-1);
 		origin.set(dimension.x/2, dimension.y/2);
 		reg = Assets.instance.vHouse.vHouse;
 	}
