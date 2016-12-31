@@ -2,6 +2,7 @@ package com.vgdc.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 /**
  * Handles our music
@@ -14,9 +15,9 @@ public class MusicPlayer
 {
 	private Music backgroundSong;
 	private Music nathanielSnoring;
-	private Music snore1;
-	private Music snore2;
-	private Music snore3;
+	private Sound snore1;
+	private Sound snore2;
+	private Sound snore3;
 	private Music wind;
 
 	/**
@@ -28,16 +29,17 @@ public class MusicPlayer
 				Gdx.audio.newMusic(Gdx.files.internal("Snow in October.mp3"));
 		nathanielSnoring =
 				Gdx.audio.newMusic(Gdx.files.internal("Nathaniel Snoring.mp3"));
-		snore1 = 
-				Gdx.audio.newMusic(Gdx.files.internal("NathanielSnoring1.mp3"));
-		snore2 = 
-				Gdx.audio.newMusic(Gdx.files.internal("NathanielSnoring1.mp3"));
-		snore3 = 
-				Gdx.audio.newMusic(Gdx.files.internal("NathanielSnoring1.mp3"));
+		snore1 =
+				Gdx.audio.newSound(Gdx.files.internal("NathanielSnoring1.mp3"));
+		snore2 =
+				Gdx.audio.newSound(Gdx.files.internal("NathanielSnoring1.mp3"));
+		snore3 =
+				Gdx.audio.newSound(Gdx.files.internal("NathanielSnoring1.mp3"));
 		wind = Gdx.audio.newMusic(Gdx.files.internal("wind.mp3"));
 		wind.setVolume(0.2f);
 		backgroundSong.setVolume(.5f);
-		backgroundSong.play();
+		backgroundSong.setLooping(true);
+		wind.setLooping(true);
 	}
 
 	/**
@@ -45,8 +47,8 @@ public class MusicPlayer
 	 * @param deltaTime
 	 */
 	public void update(float deltaTime) {
-		
-		if (Math.random() > .99)
+		double shouldISnore = Math.random() * 3 * Math.random();
+		if (shouldISnore > 2.98)
 		{
 			double snoreChoice = Math.random();
 			if(snoreChoice <= 0.33)
@@ -62,6 +64,5 @@ public class MusicPlayer
 				snore3.play();
 			}
 		}
-		wind.play();
 	}
 }
